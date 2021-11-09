@@ -38,7 +38,7 @@ module.exports = {
         hot: true,
         port: 3001,
         historyApiFallback: true,
-        contentBase: [path.join(__dirname, 'dist')],
+        contentBase: [path.join(__dirname, 'build')],
     },
 }
 
