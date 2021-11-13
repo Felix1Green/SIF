@@ -1,13 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
 import './index.scss';
+import { BaseView } from './views/BaseView';
 
-const App = () => {
-    // const hello = 'heloo';
-
-    // console.log(hello);
-
-    return <h1>Hello, world!</h1>;
+const App: React.FC = () => {
+    return <BaseView />;
 };
 
 render(<App />, document.getElementById('root'));
