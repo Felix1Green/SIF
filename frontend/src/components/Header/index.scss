@@ -1,0 +1,17 @@
+@import "src/components/Constants/Constants.scss";
+
+.Header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 15px;
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid $body-borders-color;
+
+    &-Title {
+        font-size: 26px;
+    }
+}
