@@ -7,8 +7,9 @@
     "test": "test",
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server",
-    "lint": "eslint --ext .tsx,.ts,.js src/",
-    "lint-fix": "eslint . --ext .ts --fix"
+    "lint": "npm run lint:ts && npm run lint:style",
+    "lint:ts": "eslint --fix --ext .tsx,.ts,.js src/",
+    "lint:style": "stylelint --fix \"src/**/*.scss\""
   },
   "keywords": [],
   "author": "antontintul",
@@ -20,10 +21,10 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "@types/material-ui": "^0.21.12",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "@mui/material": "^5.0.0",
+    "@types/material-ui": "^0.21.12",
     "@types/react": "^16.8.24",
     "@types/react-dom": "^16.0.5",
     "@types/webpack": "4.1.4",
@@ -35,6 +36,10 @@
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
+    "stylelint": "^14.1.0",
+    "stylelint-config-standard-scss": "^2.0.1",
+    "stylelint-order": "^5.0.0",
+    "stylelint-scss": "^4.0.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.4.3",
     "webpack": "^4.46.0",

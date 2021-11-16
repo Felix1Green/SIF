@@ -1,16 +1,16 @@
-@import "src/components/Constants/Constants.scss";
+@import "src/components/Constants/Constants";
 
 .Footer {
-    font-size: 15px;
-    flex-shrink: 0;
-
     display: flex;
     flex-direction: row;
-    align-items: center;
+    flex-shrink: 0;
     justify-content: center;
+    align-items: center;
 
     margin-bottom: 15px;
     padding-top: 10px;
+
+    font-size: 15px;
 
     border-top: 1px solid $body-borders-color;
 }
