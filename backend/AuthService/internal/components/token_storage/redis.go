@@ -52,7 +52,7 @@ func (s *RedisTokenStorage) Set(token string, value int64) error {
 		_ = conn.Close()
 	}()
 	k := s.createKey(token)
-	_, err := s.backoffDo(conn, "SET", k, strconv.Itoa(int(value)))
+	_, err := s.backoffDo(conn, "SET", k, strconv.Itoa(int(value)), "NX")
 	return err
 }
 
