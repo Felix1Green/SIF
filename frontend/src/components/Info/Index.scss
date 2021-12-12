@@ -1,0 +1,18 @@
+.Info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 50px;
+    margin-bottom: var(--space-s);
+
+    border-radius: var(--button-borderRadius);
+
+    &_type_alert {
+        background-color: var(--color-fill-color-transparent-alert);
+    }
+
+    &-Text {
+        color: var(--color-typo-alert);
+    }
+}

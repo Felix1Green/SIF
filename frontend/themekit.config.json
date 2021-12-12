@@ -1,0 +1,31 @@
+{
+  "entry": {
+    "light": "./src/theme/light.theme.json",
+    "dark": "./src/theme/dark.theme.json"
+  },
+  "output": {
+    "css": {
+      "transforms": ["name/cti/kebab", "name/mapper"],
+      "buildPath": "./src/theme/presets",
+      "actions": ["process-color"],
+      "files": [
+        {
+          "destination": "[entry]/root.scss",
+          "format": "css/variables",
+          "filter": "whitepaper/root",
+          "options": {
+            "selector": ".Theme_root_[entry]"
+          }
+        },
+        {
+          "destination": "[entry]/color.scss",
+          "format": "css/variables",
+          "filter": "whitepaper/color",
+          "options": {
+            "selector": ".Theme_color_[entry]"
+          }
+        }
+      ]
+    }
+  }
+}

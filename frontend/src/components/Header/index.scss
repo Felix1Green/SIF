@@ -1,17 +1,31 @@
-@import "src/components/Constants/Constants";
+@import 'src/components/Constants/Constants';
 
 .Header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    margin-bottom: var(--space-s);
+    padding: var(--space-s);
 
-    margin-top: 15px;
-    padding-bottom: 10px;
+    color: var(--color-typo-primary-white);
+    background-color: var(--color-bg-brand);
+    box-shadow: var(--shadow-lightblue-30);
 
-    border-bottom: 1px solid $body-borders-color;
+    &-Container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        max-width: var(--page-main-max-width);
+        margin: 0 auto;
+    }
 
     &-Title {
-        font-size: 26px;
+        font-size: var(--typography-title-font-size);
+        font-weight: var(--typography-font-weight-bold);
+    }
+
+    &-Link {
+        text-decoration: none;
+
+        color: inherit;
     }
 }

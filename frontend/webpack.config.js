@@ -23,9 +23,21 @@ module.exports = {
                 test: /\.(s*)css$/,
                 use: ["style-loader", "css-loader", "sass-loader"],
             },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader'
+            },
         ],
     },
     resolve: {
+        alias: {
+            "@components": path.resolve(__dirname, 'src/components/'),
+            "@services": path.resolve(__dirname, 'src/services/'),
+            "@helpers": path.resolve(__dirname, 'src/helpers/'),
+            "@consts": path.resolve(__dirname, 'src/consts/'),
+            "@views": path.resolve(__dirname, 'src/views/'),
+            "@theme": path.resolve(__dirname, 'src/theme/'),
+        },
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [

@@ -6,6 +6,15 @@
     "jsx": "react",
     "strict": true,
     "noImplicitAny": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@services/*": ["services/*"],
+      "@helpers/*": ["helpers/*"],
+      "@consts/*": ["consts/*"],
+      "@views/*": ["views/*"],
+      "@theme/*": ["theme/*"],
+    }
   }
 }

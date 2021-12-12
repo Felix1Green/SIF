@@ -1,16 +1,18 @@
-@import "src/components/Constants/Constants";
+@import 'src/components/Constants/Constants';
 
 .Footer {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
+    padding: var(--space-s);
 
-    margin-bottom: 15px;
-    padding-top: 10px;
+    font-size: var(--typography-label-font-size);
 
-    font-size: 15px;
+    &-Container {
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
 
-    border-top: 1px solid $body-borders-color;
+        max-width: var(--page-main-max-width);
+        margin: 0 auto;
+    }
 }
