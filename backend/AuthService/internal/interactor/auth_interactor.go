@@ -32,7 +32,7 @@ var (
 
 func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User, err error) {
 	defer func() {
-		if requestedUser != nil && requestedUser.AuthToken == nil {
+		if err == nil && requestedUser != nil && requestedUser.AuthToken == nil {
 			authToken := s.createAuthToken(s.tokenSize)
 			requestedUser.AuthToken = &authToken
 			err = s.tokenStorage.Set(authToken, *requestedUser.UserID)
@@ -51,7 +51,7 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 			UserID:    &id,
 			AuthToken: user.AuthToken,
 		}
-		return
+		return requestedUser, err
 	} else if user.Password != nil && user.Username != nil {
 		internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
 		password, ok := s.createHashPassword(*user.Password)
@@ -77,7 +77,7 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 				Password: currentUser.Password,
 				UserID:   currentUser.UserID,
 			}
-			return
+			return requestedUser, err
 
 		} else {
 			return currentUser, nil
