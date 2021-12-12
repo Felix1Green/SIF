@@ -1,0 +1,11 @@
+{
+  "extends": "@yandex/ui/Theme/themes/inverse.theme.json",
+  "whitepaper": {
+    "root": "dark",
+    "color": "dark"
+  },
+  "sources": [
+    "./src/theme/tokens/colors-dark.tokens.yml",
+    "./src/theme/tokens/root.tokens.yml"
+  ]
+}

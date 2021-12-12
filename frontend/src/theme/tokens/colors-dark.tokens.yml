@@ -1,0 +1,25 @@
+color:
+  fillColor:
+    brand:
+      value: "#176DEA"
+  typoPrimary:
+    white:
+      value: "#fff"
+
+shadow:
+  lightblue:
+    10:
+      value: 0 0 0 1px rgba(255, 255, 255, .12), 0 2px 7px -4px rgba(0, 0, 0, .4)
+    20:
+      value: 0 0 0 1px rgba(255, 255, 255, .12), 0 3.3px 10px -4px rgba(0, 0, 0, .4)
+    30:
+      value: 0 0 0 1px rgba(255, 255, 255, .12), 0 5px 15px -4px rgba(0, 0, 0, .4)
+    40:
+      value: 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 20px -4px rgba(0, 0, 0, .36)
+    50:
+      value: 0 0 0 1px rgba(255, 255, 255, .12), 0 15px 25px -4px rgba(0, 0, 0, .32)
+
+card:
+  box:
+    shadow:
+      value: 12px 4px 63px rgba(0, 0, 0, .4)

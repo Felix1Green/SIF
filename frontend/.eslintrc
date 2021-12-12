@@ -22,7 +22,6 @@
     "key-spacing": ["error", { "beforeColon": false, "mode": "strict" }],
     "keyword-spacing": ["error", { "before": true }],
     "no-whitespace-before-property": "error",
-    "no-trailing-spaces": "error",
-    "rest-spread-spacing":["error", "always"]
+    "no-trailing-spaces": "error"
   }
 }

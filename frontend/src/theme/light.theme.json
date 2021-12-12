@@ -1,0 +1,11 @@
+{
+  "extends": "@yandex/ui/Theme/themes/default.theme.json",
+  "whitepaper": {
+    "root": "light",
+    "color": "light"
+  },
+  "sources": [
+    "./src/theme/tokens/colors-light.tokens.yml",
+    "./src/theme/tokens/root.tokens.yml"
+  ]
+}

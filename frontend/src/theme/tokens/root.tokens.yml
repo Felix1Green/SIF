@@ -1,0 +1,88 @@
+textinput:
+  border:
+    radius:
+      value:
+        16px
+  size:
+    s:
+      spaceAll:
+        value: 0 19999px
+      icon:
+        height:
+          value: 36px
+      height:
+        value: 36px
+    m:
+      spaceAll:
+        value: 0 14px
+      icon:
+        height:
+          value: 42px
+      height:
+        value: 42px
+    l:
+      icon:
+        height:
+          value: 48px
+      height:
+        value: 48px
+
+button:
+  border:
+    radius:
+      value: 16px
+  size:
+    s:
+      text:
+        indentAll:
+          value: 0 22px
+      height:
+        value: 36px
+    m:
+      text:
+        indentAll:
+          value: 0 22px
+      height:
+        value: 42px
+    l:
+      text:
+        indentAll:
+          value: 0 22px
+      height:
+        value: 48px
+
+typography:
+  font:
+    family:
+      value: "'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+  title:
+    font:
+      size:
+        value: 24px
+  label:
+    font:
+      size:
+        value: 15px
+
+card:
+  border:
+    radius:
+      value: 24px
+
+page:
+  main:
+    touch:
+      max:
+        width:
+          value: 95vw
+    max:
+      width:
+        value: 80vw
+  login:
+    touch:
+      max:
+        width:
+          value: 45vw
+    max:
+      width:
+        value: 30vw

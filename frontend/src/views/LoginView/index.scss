@@ -1,0 +1,18 @@
+.Login {
+    min-width: var(--page-login-max-width);
+
+    &-Label {
+        display: block;
+
+        margin-bottom: var(--space-s);
+    }
+
+    &-Input {
+        margin-bottom: var(--space-s);
+    }
+
+    &-Submit {
+        width: 100%;
+        margin-top: var(--space-s);
+    }
+}

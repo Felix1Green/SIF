@@ -1,25 +1,22 @@
-@import "components/Constants/Constants";
-
-* {
+body {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--typography-font-family);
+
+    color: var(--button-view-default-typo-color-base);
+    background-color: var(--button-view-default-fill-color-base);
 }
 
-body {
-    color: $body-font-color;
-}
-
-div#root {
+.App {
     display: flex;
     flex-direction: column;
 
-    width: 1000px;
     min-height: 100vh;
-    margin: 0 auto;
-}
 
-.Main {
-    flex-grow: 1;
+    @media (max-width: 960px) {
+        --page-main-max-width: var(--page-main-touch-max-width);
+        --page-login-max-width: var(--page-login-touch-max-width);
+    }
 }
