@@ -1,0 +1,43 @@
+syntax = "proto3";
+package AuthService;
+
+option go_package = "/service";
+
+service Auth{
+  rpc Auth(AuthIn) returns (AuthOut);
+  rpc LogOut(LogoutIn) returns (LogoutOut);
+  rpc Register(RegisterIn) returns (RegisterOut);
+}
+
+message AuthIn{
+  optional string username = 1;
+  optional string password = 2;
+  optional string auth_token = 3;
+}
+
+message AuthOut{
+  optional int64 user_id = 1;
+  bool success = 2;
+  optional string error = 3;
+}
+
+message LogoutIn{
+  string auth_token = 1;
+}
+
+message LogoutOut{
+  bool success = 1;
+  optional string error = 2;
+}
+
+message RegisterIn{
+  string user_name = 1;
+  string password = 2;
+}
+
+message RegisterOut{
+  optional int64 user_id = 1;
+  bool success = 2;
+  optional string error = 3;
+}
+
