@@ -1,7 +1,10 @@
 package interactor
 
 import (
+	"context"
+	"crypto/rand"
 	"fmt"
+	"math/big"
 
 	"github.com/microcosm-cc/bluemonday"
 	"golang.org/x/crypto/bcrypt"
@@ -16,48 +19,84 @@ type AuthInteractor struct {
 	tokenStorage     components.TokenStorage
 	userStorage      components.UserStorage
 	cacheUserStorage components.UserStorage
+	log              internal.Logger
+	tokenSize        int
 	salt             string
 }
 
 var (
 	NoAuthenticationDataProvidedError = fmt.Errorf("no authentication data provided")
 	InternalServiceError              = fmt.Errorf("internal service error: some dependencies are not available")
+	letters                           = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 )
 
-func (s *AuthInteractor) createHashPassword(password, salt string) (string, bool) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+salt), 7)
-	return string(hashedPassword), err == nil
-}
+func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User, err error) {
+	defer func() {
+		if requestedUser != nil && requestedUser.AuthToken == nil {
+			authToken := s.createAuthToken(s.tokenSize)
+			requestedUser.AuthToken = &authToken
+			err = s.tokenStorage.Set(authToken, *requestedUser.UserID)
+		}
+	}()
 
-func (s *AuthInteractor) Auth(user *entities.User) (*int64, error) {
 	if user.AuthToken != nil {
 		internal.SanitizeInput(s.sanitizer, user.AuthToken)
 		id, err := s.tokenStorage.Get(*user.AuthToken)
 		if err != nil {
+			s.log.Warning(context.Background(), err)
 			return nil, InternalServiceError
 		}
-		return &id, nil
+
+		requestedUser = &entities.User{
+			UserID:    &id,
+			AuthToken: user.AuthToken,
+		}
+		return
 	} else if user.Password != nil && user.Username != nil {
 		internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
-		password, ok := s.createHashPassword(*user.Password, s.salt)
+		password, ok := s.createHashPassword(*user.Password)
 		if !ok {
 			return nil, InternalServiceError
 		}
+
 		currentUser, err := s.cacheUserStorage.GetUser(*user.Username, password)
+
 		if err != nil {
 			currentUser, err = s.userStorage.GetUser(*user.Username, password)
-			if err != nil || currentUser.Password == nil || currentUser.Username == nil {
+			if err != nil || (currentUser.Password == nil && currentUser.Username == nil && currentUser.UserID == nil) {
 				return nil, err
 			}
 
-			_, err = s.cacheUserStorage.CreateUser(*currentUser.Username, *currentUser.Password, currentUser.UserID)
-			if err != nil {
-				return nil, err
+			_, cacheErr := s.cacheUserStorage.CreateUser(*currentUser.Username, *currentUser.Password, currentUser.UserID)
+			if cacheErr != nil {
+				s.log.Warning(context.Background(), cacheErr)
 			}
+
+			requestedUser = &entities.User{
+				Username: currentUser.Username,
+				Password: currentUser.Password,
+				UserID:   currentUser.UserID,
+			}
+			return
+
 		} else {
-			return currentUser.UserID, nil
+			return currentUser, nil
 		}
 	}
 
 	return nil, NoAuthenticationDataProvidedError
+}
+
+func (s *AuthInteractor) createHashPassword(password string) (string, bool) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+s.salt), 7)
+	return string(hashedPassword), err == nil
+}
+
+func (s *AuthInteractor) createAuthToken(amount int) string {
+	b := make([]rune, amount)
+	for i := range b {
+		randInt, _ := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
+		b[i] = letters[randInt.Int64()]
+	}
+	return string(b)
 }

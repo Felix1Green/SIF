@@ -19,11 +19,13 @@ func New() *Handler {
 
 func (s *Handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOut, error) {
 	var (
-		success         = true
-		outErr  *string = nil
+		userId    *int64  = nil
+		userToken *string = nil
+		success           = true
+		outErr    *string = nil
 	)
 
-	userID, err := s.authInteractor.Auth(&entities.User{
+	user, err := s.authInteractor.Auth(&entities.User{
 		Username:  in.Username,
 		Password:  in.Password,
 		AuthToken: in.AuthToken,
@@ -32,11 +34,15 @@ func (s *Handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 		success = false
 		castedErr := err.Error()
 		outErr = &castedErr
+	} else if user != nil {
+		userId = user.UserID
+		userToken = user.AuthToken
 	}
 	return &service.AuthOut{
-		UserId:  userID,
-		Success: success,
-		Error:   outErr,
+		UserId:    userId,
+		Success:   success,
+		Error:     outErr,
+		UserToken: userToken,
 	}, nil
 }
 

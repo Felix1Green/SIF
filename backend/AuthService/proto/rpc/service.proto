@@ -16,13 +16,14 @@ message AuthIn{
 }
 
 message AuthOut{
-  optional int64 user_id = 1;
-  bool success = 2;
-  optional string error = 3;
+  optional int64 userId = 1;
+  optional string userToken = 2;
+  bool success = 3;
+  optional string error = 4;
 }
 
 message LogoutIn{
-  string auth_token = 1;
+  string authToken = 1;
 }
 
 message LogoutOut{
@@ -31,12 +32,12 @@ message LogoutOut{
 }
 
 message RegisterIn{
-  string user_name = 1;
+  string userName = 1;
   string password = 2;
 }
 
 message RegisterOut{
-  optional int64 user_id = 1;
+  optional int64 userId = 1;
   bool success = 2;
   optional string error = 3;
 }
