@@ -72,8 +72,8 @@
     --color-control-bg-action-hover: rgb(250, 192, 0); /* цвет фона активного контрола по ховеру */
     --color-control-bg-action-press: rgb(250, 192, 0); /* цвет фон активного контролы по нажатию */
     --color-control-bg-passive: #fff; /* цвет фона пассивной части контрола */
-    --color-control-bg-progress: #fc0; /* цвет фон активного контрола в прогрессе */
-    --color-control-bg-progress-process: rgb(255, 213, 0); /* цвет фон активного контрола в прогрессе выполнения */
+    --color-control-bg-progress: #176DEA; /* цвет фон активного контрола в прогрессе */
+    --color-control-bg-progress-process: #1761EA; /* цвет фон активного контрола в прогрессе выполнения */
     --color-control-bg-blank: #fff; /* цвет фона пустого контрола */
     --color-control-bg-blank-hover: #fff; /* цвет фона пустого контрола по ховеру */
     --color-control-bg-blank-disable: rgb(242, 242, 242); /* цвет фона пустого неактивного контрола */
@@ -108,15 +108,15 @@
     --button-view-action-fill-color-base: #176DEA;
     --button-view-action-fill-color-disabled: rgb(242, 242, 242);
     --button-view-action-fill-color-hovered: #1562D3;
-    --button-view-action-fill-color-progress-base: #fc0;
-    --button-view-action-fill-color-progress-process: rgb(255, 213, 0);
+    --button-view-action-fill-color-progress-base: #176DEA;
+    --button-view-action-fill-color-progress-process: #1761EA;
     --button-view-action-fill-color-checked-base: rgb(84, 84, 84);
     --button-view-action-fill-color-checked-hovered: rgb(84, 84, 84);
     --button-view-action-fill-color-pressed: #1358BE;
     --button-view-action-typo-color-base: #fff;
     --button-view-action-typo-color-disabled: rgb(128, 128, 128);
     --button-view-action-typo-color-hovered: #fff;
-    --button-view-action-typo-color-progress-base: #000;
+    --button-view-action-typo-color-progress-base: #fff;
     --button-view-action-typo-color-checked-base: rgb(255, 255, 255);
     --button-view-action-typo-color-checked-hovered: rgb(255, 255, 255);
     --button-view-action-typo-color-pressed: #fff;
@@ -208,7 +208,7 @@
     --popup-view-default-typo-color: #000;
     --popup-view-default-fill-color: #fff;
     --progress-outer-fill-color: transparent;
-    --progress-inner-fill-color: #fc0;
+    --progress-inner-fill-color: #176DEA;
     --radio-button-view-default-outline-color: #fc0;
     --radio-button-view-default-fill-color-base: rgb(230, 230, 230);
     --radio-button-view-default-fill-color-checked-base: #fff;
@@ -234,7 +234,7 @@
     --slider-view-default-thumb-fill-color-base: #fff; /* Цвет заливки бегунка в обычном состоянии */
     --slider-view-default-thumb-fill-color-disabled: #000; /* Цвет заливки бегунка в неактивном состоянии */
     --slider-view-default-tick-fill-color-base: #fff; /* Цвет заливки метки в обычном состоянии */
-    --spin-view-default-border-color: #fc0;
+    --spin-view-default-border-color: #176DEA;
     --tabs-menu-view-default-outline-color: #fc0;
     --tabs-menu-view-default-active-line-fill-color-active: #000;
     --tabs-menu-view-default-typo-color-base: #000;

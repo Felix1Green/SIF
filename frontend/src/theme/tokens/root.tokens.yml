@@ -35,19 +35,19 @@ button:
     s:
       text:
         indentAll:
-          value: 0 22px
+          value: 0 26px
       height:
         value: 36px
     m:
       text:
         indentAll:
-          value: 0 22px
+          value: 0 26px
       height:
         value: 42px
     l:
       text:
         indentAll:
-          value: 0 22px
+          value: 0 26px
       height:
         value: 48px
 

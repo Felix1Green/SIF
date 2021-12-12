@@ -10,6 +10,7 @@ import NotFoundView from '@views/NotFoundView';
 import { BaseViewPropsType } from './BaseView.typings';
 
 import './index.scss';
+import { ClientRoutes } from '@consts/routes';
 
 export const BaseView: React.FC<BaseViewPropsType> = () => {
     return (
@@ -17,10 +18,11 @@ export const BaseView: React.FC<BaseViewPropsType> = () => {
             <Header />
             <div className={'Main'}>
                 <Routes>
-                    <Route path="/" element={<span>Hello</span>} />
-                    <Route path="/login" element={<LoginView />} />
-                    <Route path="/register" element={<span>Register</span>} />
-                    <Route path='*' element={<NotFoundView />} />
+                    <Route path={ClientRoutes.homePage} element={<span>Hello</span>} />
+                    <Route path={ClientRoutes.loginPage} element={<LoginView />} />
+                    <Route path={ClientRoutes.registerPage} element={<span>Register</span>} />
+                    <Route path={ClientRoutes.profilePage} element={<span>Profile</span>} />
+                    <Route path={ClientRoutes.notFoundPage} element={<NotFoundView />} />
                 </Routes>
             </div>
             <Footer />
