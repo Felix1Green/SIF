@@ -34,6 +34,7 @@
     "@webpack-cli/serve": "^1.6.0",
     "@yandex/themekit": "2.0.0-alpha.1",
     "css-loader": "^5.0.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "html-webpack-plugin": "^4.5.2",
     "react-router-dom": "^6.0.2",
     "sass": "^1.30.0",

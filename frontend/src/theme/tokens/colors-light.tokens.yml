@@ -22,7 +22,9 @@ button:
         value: "#fff"
       pressed:
         value: "#fff"
-
+      progress:
+        base:
+          value: "#fff"
 color:
   alert:
     value: "#CF1E1E"
@@ -35,6 +37,14 @@ color:
   typoPrimary:
     white:
       value: "#fff"
+  control:
+    type:
+      progress:
+        fillColor:
+          base:
+            value: "#176DEA"
+          process:
+            value: "#1761EA"
 
 shadow:
   lightblue:

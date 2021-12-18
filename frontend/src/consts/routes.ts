@@ -2,11 +2,12 @@ const localhostAPI = 'http://localhost:3001/api';
 
 const HostApi = localhostAPI;
 
-export const RoutesClientApi = {
+export const ClientRoutes = {
+    registerPage: '/register',
     profilePage: '/profile',
     loginPage: '/login',
-    mainPage: '/',
-    notFoundPage: '',
+    notFoundPage: '*',
+    homePage: '/',
 };
 
 export const RoutesServerApi = {
