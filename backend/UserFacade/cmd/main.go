@@ -119,12 +119,33 @@ func logout(w http.ResponseWriter,r *http.Request){
 	return
 }
 
+func setupCORS(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", req.Header.Get("Origin"))
+	log.Println(req.Header.Get("Origin"))
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
+func MiddlewareCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		setupCORS(&w, r)
+		if r.Method == http.MethodOptions {
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
-	http.HandleFunc("/register", signup)
-	http.HandleFunc("/login", signin)
-	http.HandleFunc("/logout",logout)
+	handler := http.NewServeMux()
+	handler.HandleFunc("/register", signup)
+	handler.HandleFunc("/login", signin)
+	handler.HandleFunc("/logout",logout)
+	middlewareCors := MiddlewareCORS(handler)
 	fmt.Println("listings")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", middlewareCors)
 	if err != nil{
 		return
 	}
