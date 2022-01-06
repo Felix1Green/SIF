@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { classnames } from '@bem-react/classnames';
 import { InfoPropsType } from './Info.typings';
-import { cnInfo, infoCn, infoTextCn } from './Info.consts';
+import { cnInfo, infoCn } from './Info.consts';
 
 import './index.scss';
 
@@ -16,10 +17,8 @@ export const Info: React.FC<InfoPropsType> = (props) => {
     }
 
     return (
-        <div className={`${infoCn} ${cnInfo({ type })}`}>
-            <span className={infoTextCn}>
-                {children}
-            </span>
+        <div className={classnames(infoCn, cnInfo({ type }))}>
+            {children}
         </div>
     );
 };

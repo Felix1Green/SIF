@@ -1,5 +1,5 @@
-import { RoutesServerApi } from '../consts/routes';
-import { fetchGET } from '../services';
+import { RoutesServerApi } from '@consts/routes';
+import { fetchGET } from '@models/index';
 
 export default class CSRF {
     static async getCSRF() {

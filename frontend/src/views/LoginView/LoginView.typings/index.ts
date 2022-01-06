@@ -1,9 +1,11 @@
+import { UserContextConsumerProps } from '@views/BaseView/BaseView.typings';
+
 export type LoginViewState = {
     login: string;
     password: string;
     showAlert: boolean;
     progress: boolean;
-    user: boolean;
+    isAuth: boolean;
 };
 
-export type LoginViewProps = Record<string, never>;
+export type LoginViewProps = UserContextConsumerProps;

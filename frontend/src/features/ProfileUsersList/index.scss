@@ -1,0 +1,21 @@
+.ProfileUsersList {
+    display: flex;
+    flex-direction: column;
+
+    &-Loading {
+        align-self: center;
+
+        margin: var(--space-s) 0;
+    }
+
+    &-Container {
+        display: flex;
+        flex-direction: column;
+
+        margin: 0 0 var(--space-s) 0;
+    }
+
+    &-Append {
+        align-self: flex-end;
+    }
+}

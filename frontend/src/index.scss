@@ -19,4 +19,8 @@ body {
         --page-main-max-width: var(--page-main-touch-max-width);
         --page-login-max-width: var(--page-login-touch-max-width);
     }
+
+    & > .Spin2 {
+        margin: auto;
+    }
 }

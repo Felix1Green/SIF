@@ -4,4 +4,13 @@
     border-radius: var(--card-border-radius);
     background-color: var(--color-essential);
     box-shadow: var(--card-box-shadow);
+
+    &-Title {
+        padding-bottom: var(--space-s);
+
+        font-size: var(--typography-title-font-size);
+        font-weight: var(--typography-font-weight-medium);
+
+        border-bottom: var(--button-border-width) solid var(--color-control-bg-border-blank);
+    }
 }

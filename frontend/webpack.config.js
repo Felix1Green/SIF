@@ -32,7 +32,8 @@ module.exports = {
     resolve: {
         alias: {
             "@components": path.resolve(__dirname, 'src/components/'),
-            "@services": path.resolve(__dirname, 'src/services/'),
+            "@features": path.resolve(__dirname, 'src/features/'),
+            "@models": path.resolve(__dirname, 'src/models/'),
             "@helpers": path.resolve(__dirname, 'src/helpers/'),
             "@consts": path.resolve(__dirname, 'src/consts/'),
             "@views": path.resolve(__dirname, 'src/views/'),
