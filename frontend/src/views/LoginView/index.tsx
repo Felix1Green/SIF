@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent } from 'react';
 import { Textinput } from '@yandex/ui/Textinput/desktop/bundle';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
 import { Text } from '@yandex/ui/Text/desktop/bundle';
-import UserService from '@services/UserService';
+import UserModel from '@models/UserModel';
 import Validator from '@helpers/validator';
 import { ContentCard } from '@components/ContentCard';
 import { Info } from '@components/Info';
@@ -14,13 +14,13 @@ import './index.scss';
 import { Navigate } from 'react-router-dom';
 
 export default class LoginView extends React.Component<LoginViewProps, LoginViewState> {
-    private userService: UserService;
+    private userModel: UserModel;
     private validator: Validator;
 
     constructor(props: LoginViewProps) {
         super(props);
 
-        this.userService = new UserService();
+        this.userModel = new UserModel();
         this.validator = new Validator();
 
         this.state = {
@@ -28,7 +28,7 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             password: '',
             progress: false,
             showAlert: false,
-            user: false,
+            isAuth: false,
         };
     }
 
@@ -53,8 +53,8 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             showAlert: false,
         });
 
-        // Замедление срабатывания метода для демонстрации загрузки
-        await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 2000));
+        // TODO: Замедление срабатывания метода для демонстрации загрузки
+        // await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 1000));
 
         if (!this.validator.validateLogin(login) || !this.validator.validatePassword(password)) {
             this.setState({
@@ -64,7 +64,10 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             });
             return;
         }
-        this.setState({ user: await this.userService.login(login, password) });
+
+        if (await this.userModel.login(login, password)) {
+            this.props.setUser && this.props.setUser( await this.userModel.getUserProfile() );
+        }
     };
 
     render() {
@@ -73,14 +76,14 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             password,
             showAlert,
             progress,
-            user,
         } = this.state;
+
+        if (this.props.user) {
+            return <Navigate to="/profile" replace={true} />;
+        }
 
         return (
             <ContentCard className={loginCn}>
-                {user && (
-                    <Navigate to="/profile" replace={true} />
-                )}
                 <Info
                     show={showAlert}
                     type="alert"

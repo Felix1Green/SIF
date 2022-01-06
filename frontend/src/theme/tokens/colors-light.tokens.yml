@@ -32,6 +32,8 @@ color:
     transparent:
       alert:
         value: "#CF1E1E20"
+      info:
+        value: "#00000020"
     brand:
       value: "#176DEA"
   typoPrimary:

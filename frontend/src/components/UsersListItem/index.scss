@@ -1,0 +1,12 @@
+.UsersListItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    height: var(--profile-item-height);
+    padding: var(--space-xs);
+
+    &:hover {
+        background-color: var(--button-view-default-fill-color-hovered);
+    }
+}

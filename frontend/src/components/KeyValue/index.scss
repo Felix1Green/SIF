@@ -1,0 +1,11 @@
+.KeyValue {
+    margin-bottom: var(--space-s);
+
+    text-overflow: ellipsis;
+
+    &-Key {
+        margin-bottom: var(--space-2-xs);
+
+        font-weight: var(--typography-font-weight-medium);
+    }
+}

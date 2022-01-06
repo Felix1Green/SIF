@@ -1,9 +1,9 @@
-const localhostAPI = 'http://localhost:3001/api';
+const localhostAPI = 'http://localhost:8080';
 
 const HostApi = localhostAPI;
 
 export const ClientRoutes = {
-    registerPage: '/register',
+    registerPage: '/profile/register',
     profilePage: '/profile',
     loginPage: '/login',
     notFoundPage: '*',
@@ -11,6 +11,8 @@ export const ClientRoutes = {
 };
 
 export const RoutesServerApi = {
-    LoginApi: `${HostApi}/login`,
+    Login: `${HostApi}/login`,
+    Logout: `${HostApi}/logout`,
+    Register: `${HostApi}/logout`,
     CSRF: `${HostApi}/csrf`,
 };

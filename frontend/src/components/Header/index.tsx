@@ -13,16 +13,22 @@ import './index.scss';
 
 const Button = compose(withSizeM, withViewDefault)(ButtonDesktop);
 
-export const Header: React.FC<HeaderPropsType> = () => {
+export const Header: React.FC<HeaderPropsType> = (props) => {
     return (
         <div className={headerCn}>
             <div className={headerContainerCn}>
                 <Link to="/" className={cnHeader('Link')}>
                     <div className={cnHeader('Title')}>Шаг в будущее</div>
                 </Link>
-                <Link to="/login" className={cnHeader('Link')}>
-                    <Button view="default" size="m">Войти</Button>
-                </Link>
+                { (!props.user) ? (
+                    <Link to="/login" className={cnHeader('Link')}>
+                        <Button view="default" size="m">Войти</Button>
+                    </Link>
+                ) : (
+                    <Link to="/profile" className={cnHeader('Link')}>
+                        <Button view="default" size="m">Профиль</Button>
+                    </Link>
+                )}
             </div>
         </div>
     );

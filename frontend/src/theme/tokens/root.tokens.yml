@@ -77,7 +77,7 @@ page:
           value: 95vw
     max:
       width:
-        value: 80vw
+        value: 70vw
   login:
     touch:
       max:
@@ -86,3 +86,8 @@ page:
     max:
       width:
         value: 30vw
+
+profile:
+  item:
+    height:
+      value: 30px

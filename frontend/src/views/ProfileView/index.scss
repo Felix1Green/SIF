@@ -1,0 +1,13 @@
+.Profile {
+    display: flex;
+    flex-direction: row;
+
+    &-RightColumn {
+        width: 60vw;
+        margin-left: var(--space-s);
+    }
+
+    &-LeftColumn {
+        width: 30vw;
+    }
+}

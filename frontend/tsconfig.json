@@ -10,7 +10,8 @@
     "baseUrl": "./src/",
     "paths": {
       "@components/*": ["components/*"],
-      "@services/*": ["services/*"],
+      "@features/*": ["features/*"],
+      "@models/*": ["models/*"],
       "@helpers/*": ["helpers/*"],
       "@consts/*": ["consts/*"],
       "@views/*": ["views/*"],
