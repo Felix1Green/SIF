@@ -19,7 +19,6 @@
     "@bem-react/core": "^3.0.8",
     "@bem-react/di": "^3.1.1",
     "@yandex/ui": "^3.23.2",
-    "eslint": "^7.32.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
@@ -34,6 +33,7 @@
     "@webpack-cli/serve": "^1.6.0",
     "@yandex/themekit": "2.0.0-alpha.1",
     "css-loader": "^5.0.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "html-webpack-plugin": "^4.5.2",
     "react-router-dom": "^6.0.2",

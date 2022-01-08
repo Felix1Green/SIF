@@ -14,6 +14,14 @@ class Validator {
         const passwordRegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
         return passwordRegExp.test(password);
     }
+
+    validateName(name?: string): boolean {
+        if (!name) {
+            return false;
+        }
+        const nameRegExp = /^([A-Z][a-z]*)|([А-Я][а-я]*)$/;
+        return nameRegExp.test(name);
+    }
 }
 
 export default Validator;

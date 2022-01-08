@@ -3,7 +3,7 @@ const localhostAPI = 'http://localhost:8080';
 const HostApi = localhostAPI;
 
 export const ClientRoutes = {
-    registerPage: '/profile/register',
+    registerPage: '/register',
     profilePage: '/profile',
     loginPage: '/login',
     notFoundPage: '*',
@@ -13,6 +13,6 @@ export const ClientRoutes = {
 export const RoutesServerApi = {
     Login: `${HostApi}/login`,
     Logout: `${HostApi}/logout`,
-    Register: `${HostApi}/logout`,
+    Register: `${HostApi}/register`,
     CSRF: `${HostApi}/csrf`,
 };
