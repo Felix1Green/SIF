@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { ChangeEvent, FormEvent } from 'react';
-import { Button } from '@yandex/ui/Button/desktop/bundle';
-import UserModel from '@models/UserModel';
+import { RegisterViewProps, RegisterViewState } from '@views/RegisterView/RegisterView.typings';
 import Validator from '@helpers/validator';
+import UserModel from '@models/UserModel';
+import { ChangeEvent, FormEvent } from 'react';
+import { ClientRoutes } from '@consts/routes';
+import { Navigate } from 'react-router-dom';
 import { ContentCard } from '@components/ContentCard';
-import { Textinput } from '@components/Textinput';
+import { registrationCn, registrationSubmitCn } from './RegisterView.consts';
 import { Info } from '@components/Info';
-import { LoginViewProps, LoginViewState } from './LoginView.typings';
-import { loginCn, submitCn } from './LoginView.consts';
+import { Textinput } from '@components/Textinput';
+import { Button } from '@yandex/ui/Button/desktop/bundle';
 
 import './index.scss';
-import { Navigate } from 'react-router-dom';
-import { ClientRoutes } from '@consts/routes';
 
-export default class LoginView extends React.Component<LoginViewProps, LoginViewState> {
+export default class RegisterView extends React.Component<RegisterViewProps, RegisterViewState>{
     private userModel: UserModel;
     private validator: Validator;
 
-    constructor(props: LoginViewProps) {
+    constructor(props: RegisterViewProps) {
         super(props);
 
         this.userModel = new UserModel();
@@ -25,10 +25,12 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
 
         this.state = {
             login: '',
+            name: '',
+            surname: '',
             password: '',
             progress: false,
             showAlert: false,
-            isAuth: false,
+            isSuccess: false,
         };
     }
 
@@ -40,12 +42,22 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
         this.setState({ password: event.target.value });
     };
 
+    onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
+        this.setState({ name: event.target.value });
+    };
+
+    onChangeSurname = (event: ChangeEvent<HTMLInputElement>) => {
+        this.setState({ surname: event.target.value });
+    };
+
     onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const {
             login,
             password,
+            name,
+            surname,
         } = this.state;
 
         this.setState({
@@ -56,7 +68,12 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
         // TODO: Замедление срабатывания метода для демонстрации загрузки
         // await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 1000));
 
-        if (!this.validator.validatePassword(password)) {
+        if (
+            !this.validator.validateLogin(login) ||
+            !this.validator.validatePassword(password) ||
+            !this.validator.validateName(name) ||
+            !this.validator.validateName(surname)
+        ) {
             this.setState({
                 progress: false,
                 showAlert: true,
@@ -65,9 +82,9 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
             return;
         }
 
-        const response = await this.userModel.login(login, password);
+        const response = await this.userModel.register(name, surname, login, password);
         if (response.ok) {
-            this.props.setUser && this.props.setUser( await this.userModel.getUserProfile() );
+            this.setState({ isSuccess: true });
         } else {
             this.setState({
                 progress: false,
@@ -78,26 +95,41 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
     };
 
     render() {
+        if (this.state.isSuccess) {
+            return <Navigate to={ClientRoutes.profilePage}/>;
+        }
+        if (!this.props.user) {
+            return <Navigate to={ClientRoutes.loginPage} replace={true} />;
+        }
+
         const {
+            name,
+            surname,
             login,
             password,
             showAlert,
             progress,
         } = this.state;
 
-        if (this.props.user) {
-            return <Navigate to={ClientRoutes.profilePage} replace={true} />;
-        }
-
         return (
-            <ContentCard className={loginCn}>
+            <ContentCard className={registrationCn}>
                 <Info
                     show={showAlert}
                     type="alert"
                 >
-                    Неверный логин и/или пароль
+                    Неверный формат ввода одного из полей
                 </Info>
                 <form onSubmit={this.onSubmit}>
+                    <Textinput
+                        onChange={this.onChangeName}
+                        value={name}
+                        label="Имя"
+                    />
+                    <Textinput
+                        onChange={this.onChangeSurname}
+                        value={surname}
+                        label="Фамилия"
+                    />
                     <Textinput
                         onChange={this.onChangeLogin}
                         value={login}
@@ -110,13 +142,13 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
                         type="password"
                     />
                     <Button
-                        className={submitCn}
+                        className={registrationSubmitCn}
                         view="action"
                         size="m"
                         type="submit"
                         progress={progress}
                     >
-                        Войти
+                        Зарегистрировать
                     </Button>
                 </form>
             </ContentCard>

@@ -3,8 +3,18 @@ import { fetchDataPOST } from '@models/index';
 import { RoutesServerApi } from '@consts/routes';
 
 export default class UserModel {
-    async login(login?: string, password?: string) {
+    async login(login: string, password: string) {
         return fetchDataPOST(RoutesServerApi.Login, {
+            'Email': login,
+            'Password': password,
+        });
+    }
+
+    async register(name: string, surname: string, login: string, password: string) {
+        // TODO: Замедление срабатывания метода для демонстрации загрузки
+        // await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 5000));
+
+        return fetchDataPOST(RoutesServerApi.Register, {
             'Email': login,
             'Password': password,
         });

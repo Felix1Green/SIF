@@ -1,0 +1,11 @@
+.Textinput {
+    &-Label {
+        display: block;
+
+        margin-bottom: var(--space-s);
+    }
+
+    &-Input {
+        margin-bottom: var(--space-s);
+    }
+}

@@ -6,13 +6,15 @@ import {
 import { Header } from '@components/Header';
 import { Footer } from '@components/Footer';
 import LoginView from '@views/LoginView';
-import ProfileView from '@views/ProfileView';
+import RegisterView from '@views/RegisterView';
 import NotFoundView from '@views/NotFoundView';
+import ProfileView from '@views/ProfileView';
 import { BaseViewPropsType } from './BaseView.typings';
 
-import './index.scss';
 import { ClientRoutes } from '@consts/routes';
 import { UserContext } from '../../index';
+
+import './index.scss';
 
 export const BaseView: React.FC<BaseViewPropsType> = () => {
     return (
@@ -29,7 +31,11 @@ export const BaseView: React.FC<BaseViewPropsType> = () => {
                                     setUser={setUser}
                                 />
                             }/>
-                            <Route path={ClientRoutes.registerPage} element={<span>Register</span>}/>
+                            <Route path={ClientRoutes.registerPage} element={
+                                <RegisterView
+                                    user={user}
+                                />
+                            }/>
                             <Route path={ClientRoutes.profilePage} element={
                                 <ProfileView
                                     user={user}
