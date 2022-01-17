@@ -1,4 +1,12 @@
 # SIF
+## Бэкенд
+### Запуск бэкенда
+<pre>
+    <code>
+  docker-compose -f ./backend/docker-compose.yml up -d
+    </code>
+</pre>
+
 
 ## Фронтенд
 ### Запуск фронтенда
