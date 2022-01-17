@@ -9,16 +9,15 @@ import (
 	"net/http"
 )
 
-type handler struct{
+type handler struct {
 	authServiceClient auth.AuthClient
-	log *logrus.Logger
+	log               *logrus.Logger
 }
 
-
-func NewHandler(authServiceClient auth.AuthClient, log *logrus.Logger) *handler{
+func NewHandler(authServiceClient auth.AuthClient, log *logrus.Logger) *handler {
 	return &handler{
 		authServiceClient: authServiceClient,
-		log: log,
+		log:               log,
 	}
 }
 
@@ -30,32 +29,32 @@ func getSessionCookie(r *http.Request, name string) string {
 	return c.Value
 }
 
-func deleteSessionCookie(w http.ResponseWriter,name string){
+func deleteSessionCookie(w http.ResponseWriter, name string) {
 	cookie := http.Cookie{
-		Name: name,
+		Name:   name,
 		MaxAge: -1,
 	}
 	http.SetCookie(w, &cookie)
 }
 
-func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
-	if r.Method == http.MethodGet{
+func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	token := getSessionCookie(r,rpc.CookieName)
+	token := getSessionCookie(r, rpc.CookieName)
 	logoutIn := auth.LogoutIn{
 		AuthToken: token,
 	}
 
 	response, err := h.authServiceClient.LogOut(context.Background(), &logoutIn)
-	if err != nil || response == nil{
+	if err != nil || response == nil {
 		h.log.Warning(fmt.Sprintf("auth service handled with error: %e", err))
 		w.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
 
-	deleteSessionCookie(w,rpc.CookieName)
+	deleteSessionCookie(w, rpc.CookieName)
 	w.WriteHeader(http.StatusOK)
 	return
 }

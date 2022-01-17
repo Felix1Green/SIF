@@ -24,11 +24,11 @@ func main() {
 	handler := http.NewServeMux()
 	handler.HandleFunc("/login", loginHandler.Handle)
 	handler.HandleFunc("/register", registerHandler.Handle)
-	handler.HandleFunc("/logout",logoutHandler.Handle)
+	handler.HandleFunc("/logout", logoutHandler.Handle)
 
 	handlers := middleware.SetupMiddleware(handler)
 	err = http.ListenAndServe(":8080", handlers)
-	if err != nil{
+	if err != nil {
 		return
 	}
 }

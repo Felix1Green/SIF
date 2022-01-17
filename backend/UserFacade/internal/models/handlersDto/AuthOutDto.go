@@ -1,10 +1,9 @@
 package handlersDto
 
-
-type AuthOutDto struct{
+type AuthOutDto struct {
 	UserName string
 }
 
-type RegisterOutDto struct{
+type RegisterOutDto struct {
 	UserID int64
 }

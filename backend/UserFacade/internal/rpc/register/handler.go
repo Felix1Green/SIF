@@ -13,20 +13,20 @@ import (
 	"net/http"
 )
 
-type handler struct{
+type handler struct {
 	authServiceClient auth.AuthClient
-	log *logrus.Logger
+	log               *logrus.Logger
 }
 
-func NewHandler(authServiceClient auth.AuthClient, log *logrus.Logger) *handler{
+func NewHandler(authServiceClient auth.AuthClient, log *logrus.Logger) *handler {
 	return &handler{
 		authServiceClient,
 		log,
 	}
 }
 
-func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
-	if r.Method == http.MethodGet{
+func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -34,7 +34,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
 	inputData := user.RegisterUser{}
 	body, _ := ioutil.ReadAll(r.Body)
 	_ = json.Unmarshal(body, &inputData)
-	if inputData.Username == "" || inputData.Password == ""{
+	if inputData.Username == "" || inputData.Password == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -45,25 +45,25 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
 	}
 
 	response, err := h.authServiceClient.Register(context.Background(), &RegisterIn)
-	if err != nil{
+	if err != nil {
 		h.log.Warning(fmt.Sprintf("auth service returned error: %s", err))
 		w.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}
 
-	if response.Error != nil{
-		switch *response.Error{
+	if response.Error != nil {
+		switch *response.Error {
 		case auth.Errors_NotEnoughRightsToCreateUser:
 			w.WriteHeader(http.StatusForbidden)
 			return
 		case auth.Errors_UserAlreadyRegistered:
 			body := handlerErrors.AuthError{
 				ErrorMessage: "user already registered",
-				ErrorCode: http.StatusBadRequest,
+				ErrorCode:    http.StatusBadRequest,
 			}
 			rawDto, _ := json.Marshal(body)
 			_, err = w.Write(rawDto)
-			if err != nil{
+			if err != nil {
 				w.WriteHeader(http.StatusServiceUnavailable)
 				return
 			}
@@ -85,7 +85,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
 	}
 	rawOut, _ := json.Marshal(outDto)
 	_, err = w.Write(rawOut)
-	if err != nil{
+	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		return
 	}

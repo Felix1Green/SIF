@@ -1,6 +1,5 @@
 package rpc
 
-
-var(
+var (
 	CookieName = "sif_token"
 )

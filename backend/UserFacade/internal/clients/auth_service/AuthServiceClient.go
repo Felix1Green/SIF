@@ -7,19 +7,19 @@ import (
 	"time"
 )
 
-func NewClientFromEnv() (auth.AuthClient, error){
+func NewClientFromEnv() (auth.AuthClient, error) {
 	target := "auth_service"
 	client, err := grpc.Dial(target, grpc.WithConnectParams(grpc.ConnectParams{
 		Backoff: backoff.Config{
-			BaseDelay: 10*time.Second,
+			BaseDelay:  10 * time.Second,
 			Multiplier: 1.5,
-			Jitter: 1,
-			MaxDelay: 5*time.Minute,
+			Jitter:     1,
+			MaxDelay:   5 * time.Minute,
 		},
-		MinConnectTimeout: 10*time.Second,
+		MinConnectTimeout: 10 * time.Second,
 	}))
 
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 

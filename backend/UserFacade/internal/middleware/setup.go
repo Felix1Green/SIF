@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func SetupMiddleware(handler http.Handler) http.Handler{
+func SetupMiddleware(handler http.Handler) http.Handler {
 	corsMiddleware := cors.MiddlewareCors(handler)
 
 	return corsMiddleware
