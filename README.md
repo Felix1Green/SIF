@@ -12,6 +12,7 @@
 ### Запуск фронтенда
 <pre>
     <code>
+  cd frontend
   npm i
   npm start
     </code>
