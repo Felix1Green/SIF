@@ -4,21 +4,23 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-    volumes:
-      - $PWD/redis-data:/var/lib/redis
-        - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
   postgresql:
     image: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     restart: always
     env_file:
       - config/database.env
     volumes:
       - ./init/:/docker-entrypoint-initdb.d/
-      - /home/ubuntu/etc/postgresql:/etc/postgresql
-      - /home/ubuntu/var/log/postgresql:/var/log/postgresql
-      - /home/ubuntu/var/lib/postgresql:/var/lib/postgresql
-      - /home/ubuntu/var/lib/postgresql/data:/var/lib/postgresql/data/:rw
+  profile:
+    build:
+      context: ProfileService
+      dockerfile: Dockerfile
+    ports:
+      - "8889:8889"
+    restart: always
+    depends_on:
+      - postgresql
