@@ -1,8 +1,7 @@
-package get_profile_by_user_id
+package get_all_profiles
 
 import (
 	"context"
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal"
 	"github.com/Felix1Green/SIF/backend/ProfileService/internal/generated/service/profile"
 	"github.com/Felix1Green/SIF/backend/ProfileService/internal/interactor"
 	"github.com/sirupsen/logrus"
@@ -21,32 +20,36 @@ func NewHandler(profileDomain interactor.ProfileInteract, logger *logrus.Logger)
 	}
 }
 
-func (h *handler) GetProfileByUserID(ctx context.Context, in *profile.GetProfileByUserIDIn, opts ...grpc.CallOption) (*profile.GetProfileByUserIDOut, error){
+func (h *handler) GetAllProfiles(ctx context.Context, in *profile.GetAllProfilesIn, opts ...grpc.CallOption) (*profile.GetAllProfilesOut, error){
 	var(
 		handlerError profile.Errors
 	)
 
-	profileData, err := h.profileDomain.GetProfileByUserID(in.UserID)
+	profiles, err := h.profileDomain.GetAllProfiles()
 	if err != nil{
 		switch err{
-		case internal.ProfileNotFoundError:
-			handlerError = profile.Errors_ProfileNotFound
 		default:
 			handlerError = profile.Errors_InternalServiceError
+			h.log.Errorf("internal service error: %s", err.Error())
+			return &profile.GetAllProfilesOut{
+				Success: false,
+				Error: &handlerError,
+			}, nil
 		}
-		return &profile.GetProfileByUserIDOut{
-			Success: false,
-			Error: &handlerError,
-		}, nil
 	}
 
-	return &profile.GetProfileByUserIDOut{
-		Profile: &profile.ProfileData{
+	ProfilesData := make([]*profile.ProfileData, len(profiles))
+	for _, profileData := range profiles{
+		ProfilesData = append(ProfilesData, &profile.ProfileData{
 			UserID: profileData.UserID,
 			UserMail: profileData.UserMail,
-			UserRole: profileData.UserRole,
-			UserSurname: profileData.UserSurname,
 			UserName: profileData.UserName,
-		},
+			UserSurname: profileData.UserSurname,
+			UserRole: profileData.UserRole,
+		})
+	}
+
+	return &profile.GetAllProfilesOut{
+		Profiles: ProfilesData,
 	}, nil
 }

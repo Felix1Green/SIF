@@ -1,7 +1,7 @@
 package profile_storage
 
 import(
-	"fmt"
+	"github.com/Felix1Green/SIF/backend/ProfileService/internal"
 	"github.com/Felix1Green/SIF/backend/ProfileService/internal/entities"
 	"github.com/jackc/pgx"
 	"github.com/sirupsen/logrus"
@@ -11,12 +11,6 @@ type PostgresProfileStorage struct{
 	pool *pgx.ConnPool
 	log *logrus.Logger
 }
-
-var(
-	ProfileNotFoundError = fmt.Errorf("profile not found")
-	ProfileAlreadyExists = fmt.Errorf("profile already exists")
-	InternalServiceError = fmt.Errorf("internal service error")
-)
 
 func NewPostgresProfileStorage(pool *pgx.ConnPool, logger *logrus.Logger) *PostgresProfileStorage{
 	return &PostgresProfileStorage{
@@ -28,7 +22,7 @@ func NewPostgresProfileStorage(pool *pgx.ConnPool, logger *logrus.Logger) *Postg
 func (r *PostgresProfileStorage) CreateProfile(profile *entities.Profile) (*entities.Profile, error){
 	if r.pool == nil{
 		r.log.Error("no connection pool provided")
-		return nil, InternalServiceError
+		return nil, internal.ServiceInternalError
 	}
 
 	query := "INSERT INTO Profile (user_id, user_mail, username, user_surname, user_role) VALUES ($1, $2, $3, $4, $5) RETURNING user_id"
@@ -40,9 +34,9 @@ func (r *PostgresProfileStorage) CreateProfile(profile *entities.Profile) (*enti
 		switch err.(type){
 		case pgx.PgError:
 			r.log.Errorf("postgresql server error: %s", err.Error())
-			return nil, InternalServiceError
+			return nil, internal.ServiceInternalError
 		default:
-			return nil, ProfileAlreadyExists
+			return nil, internal.ProfileAlreadyExists
 		}
 	}
 
@@ -52,7 +46,7 @@ func (r *PostgresProfileStorage) CreateProfile(profile *entities.Profile) (*enti
 func (r *PostgresProfileStorage) GetProfileByID(userID int64) (*entities.Profile, error){
 	if r.pool == nil{
 		r.log.Error("no connection pool provided")
-		return nil, InternalServiceError
+		return nil, internal.ServiceInternalError
 	}
 
 	profile := &entities.Profile{}
@@ -64,9 +58,9 @@ func (r *PostgresProfileStorage) GetProfileByID(userID int64) (*entities.Profile
 		switch err.(type){
 		case pgx.PgError:
 			r.log.Errorf("postgresql server error: %s", err.Error())
-			return nil, InternalServiceError
+			return nil, internal.ServiceInternalError
 		default:
-			return nil, ProfileNotFoundError
+			return nil, internal.ProfileNotFoundError
 		}
 	}
 
@@ -76,7 +70,7 @@ func (r *PostgresProfileStorage) GetProfileByID(userID int64) (*entities.Profile
 func (r *PostgresProfileStorage) GetAllProfiles()([]*entities.Profile, error){
 	if r.pool == nil{
 		r.log.Error("no connection pool provided")
-		return nil, InternalServiceError
+		return nil, internal.ServiceInternalError
 	}
 
 	profileArray := make([]*entities.Profile, 0)
@@ -85,7 +79,7 @@ func (r *PostgresProfileStorage) GetAllProfiles()([]*entities.Profile, error){
 	result, err := r.pool.Query(query)
 	if err != nil{
 		r.log.Errorf("postgresql server error: %s", err.Error())
-		return nil, InternalServiceError
+		return nil, internal.ServiceInternalError
 	}
 
 	for result.Next(){
@@ -93,7 +87,7 @@ func (r *PostgresProfileStorage) GetAllProfiles()([]*entities.Profile, error){
 		err = result.Scan(profile)
 		if err != nil{
 			r.log.Errorf("postgresql server error: %s", err.Error())
-			return nil, InternalServiceError
+			return nil, internal.ServiceInternalError
 		}
 
 		profileArray = append(profileArray, profile)

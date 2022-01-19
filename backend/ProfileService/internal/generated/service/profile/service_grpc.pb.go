@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProfileClient interface {
 	GetProfileByUserID(ctx context.Context, in *GetProfileByUserIDIn, opts ...grpc.CallOption) (*GetProfileByUserIDOut, error)
 	CreateProfile(ctx context.Context, in *CreateProfileIn, opts ...grpc.CallOption) (*CreateProfileOut, error)
+	GetAllProfiles(ctx context.Context, in *GetAllProfilesIn, opts ...grpc.CallOption) (*GetAllProfilesOut, error)
 }
 
 type profileClient struct {
@@ -48,12 +49,22 @@ func (c *profileClient) CreateProfile(ctx context.Context, in *CreateProfileIn, 
 	return out, nil
 }
 
+func (c *profileClient) GetAllProfiles(ctx context.Context, in *GetAllProfilesIn, opts ...grpc.CallOption) (*GetAllProfilesOut, error) {
+	out := new(GetAllProfilesOut)
+	err := c.cc.Invoke(ctx, "/ProfileService.Profile/GetAllProfiles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProfileServer is the server API for Profile service.
 // All implementations must embed UnimplementedProfileServer
 // for forward compatibility
 type ProfileServer interface {
 	GetProfileByUserID(context.Context, *GetProfileByUserIDIn) (*GetProfileByUserIDOut, error)
 	CreateProfile(context.Context, *CreateProfileIn) (*CreateProfileOut, error)
+	GetAllProfiles(context.Context, *GetAllProfilesIn) (*GetAllProfilesOut, error)
 	mustEmbedUnimplementedProfileServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedProfileServer) GetProfileByUserID(context.Context, *GetProfil
 }
 func (UnimplementedProfileServer) CreateProfile(context.Context, *CreateProfileIn) (*CreateProfileOut, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProfile not implemented")
+}
+func (UnimplementedProfileServer) GetAllProfiles(context.Context, *GetAllProfilesIn) (*GetAllProfilesOut, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllProfiles not implemented")
 }
 func (UnimplementedProfileServer) mustEmbedUnimplementedProfileServer() {}
 
@@ -116,6 +130,24 @@ func _Profile_CreateProfile_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Profile_GetAllProfiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllProfilesIn)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfileServer).GetAllProfiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProfileService.Profile/GetAllProfiles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfileServer).GetAllProfiles(ctx, req.(*GetAllProfilesIn))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Profile_ServiceDesc is the grpc.ServiceDesc for Profile service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var Profile_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateProfile",
 			Handler:    _Profile_CreateProfile_Handler,
+		},
+		{
+			MethodName: "GetAllProfiles",
+			Handler:    _Profile_GetAllProfiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

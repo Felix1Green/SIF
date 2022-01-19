@@ -6,41 +6,50 @@ option go_package = "/profile";
 service Profile{
   rpc GetProfileByUserID(GetProfileByUserIDIn) returns (GetProfileByUserIDOut);
   rpc CreateProfile(CreateProfileIn) returns (CreateProfileOut);
+  rpc GetAllProfiles(GetAllProfilesIn) returns (GetAllProfilesOut);
 }
 
 enum Errors {
   ProfileAlreadyExists = 0;
   ProfileNotFound = 1;
+  ProfileDataNotProvided = 2;
+  InternalServiceError = 3;
 }
 
 message GetProfileByUserIDIn{
   int64 UserID = 1;
 }
 
+message ProfileData{
+  int64 UserID = 1;
+  optional string UserName = 2;
+  string UserMail = 3;
+  optional string UserSurname = 4;
+  optional string UserRole = 5;
+}
+
 message GetProfileByUserIDOut{
-  optional string UserName = 1;
-  optional string UserMail = 2;
-  optional string UserSurname = 3;
-  optional string UserRole = 4;
-  optional Errors Error = 5;
-  bool Success = 6;
+  optional ProfileData profile = 1;
+  optional Errors Error = 2;
+  bool Success = 3;
 }
 
 message CreateProfileIn{
-  int64 UserID = 1;
-  string UserMail = 2;
-  string UserName = 3;
-  string UserSurname = 4;
-  string UserRole = 5;
+  ProfileData Profile = 1;
 }
 
 message CreateProfileOut{
-  optional int64 UserID = 1;
-  optional string UserMail = 2;
-  optional string UserName = 3;
-  optional string UserSurname = 4;
-  optional string UserRole = 5;
-  optional Errors Error = 6;
-  bool Success = 7;
+  optional ProfileData Profile = 1;
+  optional Errors Error = 2;
+  bool Success = 3;
+}
+
+
+message GetAllProfilesIn{}
+
+message GetAllProfilesOut{
+  repeated ProfileData Profiles = 1;
+  bool Success = 2;
+  optional Errors Error = 3;
 }
 
