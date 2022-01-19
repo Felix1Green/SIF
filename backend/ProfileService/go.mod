@@ -1,4 +1,4 @@
-module github.com/Felix1Green/SIF/backend/ProfileService
+module ProfileService
 
 go 1.15
 

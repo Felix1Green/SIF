@@ -1,9 +1,9 @@
 package profile
 
 import (
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal"
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal/components"
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal/entities"
+	"ProfileService/internal"
+	"ProfileService/internal/components"
+	"ProfileService/internal/entities"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/sirupsen/logrus"
 )

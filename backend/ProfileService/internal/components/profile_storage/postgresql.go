@@ -1,8 +1,8 @@
 package profile_storage
 
 import(
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal"
-	"github.com/Felix1Green/SIF/backend/ProfileService/internal/entities"
+	"ProfileService/internal"
+	"ProfileService/internal/entities"
 	"github.com/jackc/pgx"
 	"github.com/sirupsen/logrus"
 )

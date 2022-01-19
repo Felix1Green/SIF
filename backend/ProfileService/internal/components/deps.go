@@ -1,6 +1,6 @@
 package components
 
-import "github.com/Felix1Green/SIF/backend/ProfileService/internal/entities"
+import "ProfileService/internal/entities"
 
 type UserStorage interface{
 	CreateProfile(profile *entities.Profile) (*entities.Profile, error)
