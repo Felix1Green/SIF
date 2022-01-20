@@ -12,11 +12,11 @@ type Interactor interface {
 	Register(user *entities.User) (*entities.User, error)
 }
 
-var(
+var (
 	NoAuthenticationDataProvidedError = fmt.Errorf("no authentication data provided")
 	InternalServiceError              = fmt.Errorf("internal service error: some dependencies are not available")
-	UserNotFoundError    = fmt.Errorf("user not found")
-	UserAlreadyRegistered = fmt.Errorf("user already registered")
+	UserNotFoundError                 = fmt.Errorf("user not found")
+	UserAlreadyRegistered             = fmt.Errorf("user already registered")
 )
 
 // Logger определяет интерфейс логгера, используемый пакетом internal.

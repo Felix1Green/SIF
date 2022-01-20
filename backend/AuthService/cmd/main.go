@@ -23,10 +23,10 @@ func main() {
 		MaxConnections: 10,
 		AcquireTimeout: time.Minute,
 		ConnConfig: pgx.ConnConfig{
-			Host: "postgresql",
-			Port: 5432,
+			Host:     "postgresql",
+			Port:     5432,
 			Database: "auth_service",
-			User: "auth",
+			User:     "auth",
 			Password: "auth_pass",
 		},
 	})
@@ -41,9 +41,9 @@ func main() {
 	}()
 
 	redisPool := &redis.Pool{
-		MaxIdle: 3,
+		MaxIdle:     3,
 		IdleTimeout: 240 * time.Second,
-		Dial: func () (redis.Conn, error) { return redis.Dial("tcp", "redis:6379") },
+		Dial:        func() (redis.Conn, error) { return redis.Dial("tcp", "redis:6379") },
 	}
 
 	postgresUserStorage := user_storage.NewPostgresUserStorage(pool)
@@ -58,7 +58,7 @@ func main() {
 
 	logger.Infof("starting auth service listening on port: %d", port)
 	lis, err := net.Listen("tcp", fmt.Sprintf("auth:%d", port))
-	if err != nil{
+	if err != nil {
 		logger.Fatalf("err during listening to port: %d", port)
 	}
 

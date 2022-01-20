@@ -25,7 +25,7 @@ type AuthInteractor struct {
 }
 
 var (
-	letters                           = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 )
 
 func NewInteractor(
@@ -35,15 +35,15 @@ func NewInteractor(
 	log *logrus.Logger,
 	tokenSize int,
 	salt string,
-) *AuthInteractor{
+) *AuthInteractor {
 	return &AuthInteractor{
-		userStorage: userStorage,
-		tokenStorage: tokenStorage,
+		userStorage:      userStorage,
+		tokenStorage:     tokenStorage,
 		cacheUserStorage: cacheUserStorage,
-		log: log,
-		tokenSize: tokenSize,
-		salt: salt,
-		sanitizer: bluemonday.NewPolicy(),
+		log:              log,
+		tokenSize:        tokenSize,
+		salt:             salt,
+		sanitizer:        bluemonday.NewPolicy(),
 	}
 }
 
@@ -80,7 +80,7 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 
 		if err != nil {
 			currentUser, err = s.userStorage.GetUser(*user.Username, password)
-			if err != nil{
+			if err != nil {
 				return nil, err
 			}
 
@@ -103,26 +103,26 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 	return nil, internal.NoAuthenticationDataProvidedError
 }
 
-func (s *AuthInteractor) Logout(token string) error{
+func (s *AuthInteractor) Logout(token string) error {
 	return s.tokenStorage.Del(token)
 }
 
-func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error){
+func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error) {
 	internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
 
-	if user.Username == nil || user.Password == nil{
+	if user.Username == nil || user.Password == nil {
 		password, ok := s.createHashPassword(*user.Password)
 		if !ok {
 			return nil, internal.InternalServiceError
 		}
 
 		_, err := s.cacheUserStorage.GetUser(*user.Username, password)
-		if err == nil{
+		if err == nil {
 			return nil, internal.UserAlreadyRegistered
 		}
 
 		user, err = s.userStorage.CreateUser(*user.Username, password, nil)
-		if err != nil{
+		if err != nil {
 			return nil, err
 		}
 
@@ -133,14 +133,14 @@ func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error){
 
 		authToken := s.createAuthToken(s.tokenSize)
 		err = s.tokenStorage.Set(authToken, *user.UserID)
-		if err != nil{
+		if err != nil {
 			return nil, internal.InternalServiceError
 		}
 
 		requestedUser := &entities.User{
-			Username: user.Username,
+			Username:  user.Username,
 			AuthToken: &authToken,
-			UserID:   user.UserID,
+			UserID:    user.UserID,
 		}
 		return requestedUser, nil
 	}

@@ -34,7 +34,7 @@ func (s *handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 	})
 	if err != nil {
 		success = false
-		switch err{
+		switch err {
 		case internal.UserNotFoundError:
 			outErr = service.Errors_IncorrectUser
 		case internal.NoAuthenticationDataProvidedError:
@@ -45,7 +45,7 @@ func (s *handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 
 		return &service.AuthOut{
 			Success: success,
-			Error: &outErr,
+			Error:   &outErr,
 		}, nil
 	} else if user != nil {
 		userId = user.UserID
@@ -60,20 +60,20 @@ func (s *handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 }
 
 func (s *handler) LogOut(ctx context.Context, in *service.LogoutIn) (*service.LogoutOut, error) {
-	if in.AuthToken == ""{
+	if in.AuthToken == "" {
 		outErr := service.Errors_NoAuthDataProvided
 		return &service.LogoutOut{
 			Success: false,
-			Error: &outErr,
-		},nil
+			Error:   &outErr,
+		}, nil
 	}
 
 	err := s.authInteractor.Logout(in.AuthToken)
-	if err != nil{
+	if err != nil {
 		outErr := service.Errors_InternalServiceError
 		return &service.LogoutOut{
 			Success: false,
-			Error: &outErr,
+			Error:   &outErr,
 		}, nil
 	}
 
@@ -91,12 +91,12 @@ func (s *handler) Register(ctx context.Context, in *service.RegisterIn) (*servic
 	)
 
 	user, err := s.authInteractor.Register(&entities.User{
-		Username:  &in.UserName,
-		Password:  &in.Password,
+		Username: &in.UserName,
+		Password: &in.Password,
 	})
 	if err != nil {
 		success = false
-		switch err{
+		switch err {
 		case internal.UserAlreadyRegistered:
 			outErr = service.Errors_IncorrectUser
 		case internal.NoAuthenticationDataProvidedError:
@@ -107,7 +107,7 @@ func (s *handler) Register(ctx context.Context, in *service.RegisterIn) (*servic
 
 		return &service.RegisterOut{
 			Success: success,
-			Error: &outErr,
+			Error:   &outErr,
 		}, nil
 	} else if user != nil {
 		userId = user.UserID
