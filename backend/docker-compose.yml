@@ -24,3 +24,12 @@ services:
     restart: always
     depends_on:
       - postgresql
+  auth:
+    build:
+      context: AuthService
+      dockerfile: Dockerfile
+    ports:
+      - "8887:8887"
+    restart: always
+    depends_on:
+      - redis
