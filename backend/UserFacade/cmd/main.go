@@ -15,6 +15,10 @@ func main() {
 
 	logger.Info("Initializing dependent services")
 	authServiceClient, err := auth_service.NewClientFromEnv()
+	if err != nil {
+		logger.Errorf("cannot connect to auth service: %s", err.Error())
+		return
+	}
 	logger.Info("Dependent services initializing finished")
 
 	loginHandler := login.NewLoginHandler(authServiceClient, logger)

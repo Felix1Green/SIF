@@ -2,7 +2,7 @@ SET timezone ='+3';
 /* users table */
 CREATE TABLE if not exists users
 (
-    ID serial NOT NULL PRIMARY KEY,
-    Login VARCHAR(32) NOT NULL UNIQUE,
-    Password VARCHAR(64) NOT NULL
+    user_id serial NOT NULL PRIMARY KEY,
+    username VARCHAR(32) NOT NULL UNIQUE,
+    password VARCHAR(64) NOT NULL
 );

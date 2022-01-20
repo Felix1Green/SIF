@@ -33,3 +33,13 @@ services:
     restart: always
     depends_on:
       - redis
+  user_facade:
+    build:
+      context: UserFacade
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - profile
+      - auth

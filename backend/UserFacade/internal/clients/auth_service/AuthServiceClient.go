@@ -4,11 +4,12 @@ import (
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/backoff"
+	"google.golang.org/grpc/credentials/insecure"
 	"time"
 )
 
 func NewClientFromEnv() (auth.AuthClient, error) {
-	target := "auth_service"
+	target := "auth:8887"
 	client, err := grpc.Dial(target, grpc.WithConnectParams(grpc.ConnectParams{
 		Backoff: backoff.Config{
 			BaseDelay:  10 * time.Second,
@@ -17,7 +18,7 @@ func NewClientFromEnv() (auth.AuthClient, error) {
 			MaxDelay:   5 * time.Minute,
 		},
 		MinConnectTimeout: 10 * time.Second,
-	}))
+	}), grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
 		return nil, err
