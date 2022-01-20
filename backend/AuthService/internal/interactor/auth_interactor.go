@@ -3,7 +3,7 @@ package interactor
 import (
 	"context"
 	"crypto/rand"
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"math/big"
 
 	"github.com/microcosm-cc/bluemonday"
@@ -19,16 +19,33 @@ type AuthInteractor struct {
 	tokenStorage     components.TokenStorage
 	userStorage      components.UserStorage
 	cacheUserStorage components.UserStorage
-	log              internal.Logger
+	log              *logrus.Logger
 	tokenSize        int
 	salt             string
 }
 
 var (
-	NoAuthenticationDataProvidedError = fmt.Errorf("no authentication data provided")
-	InternalServiceError              = fmt.Errorf("internal service error: some dependencies are not available")
 	letters                           = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 )
+
+func NewInteractor(
+	tokenStorage components.TokenStorage,
+	userStorage components.UserStorage,
+	cacheUserStorage components.UserStorage,
+	log *logrus.Logger,
+	tokenSize int,
+	salt string,
+) *AuthInteractor{
+	return &AuthInteractor{
+		userStorage: userStorage,
+		tokenStorage: tokenStorage,
+		cacheUserStorage: cacheUserStorage,
+		log: log,
+		tokenSize: tokenSize,
+		salt: salt,
+		sanitizer: bluemonday.NewPolicy(),
+	}
+}
 
 func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User, err error) {
 	defer func() {
@@ -44,49 +61,92 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 		id, err := s.tokenStorage.Get(*user.AuthToken)
 		if err != nil {
 			s.log.Warning(context.Background(), err)
-			return nil, InternalServiceError
+			return nil, internal.InternalServiceError
 		}
 
 		requestedUser = &entities.User{
 			UserID:    &id,
 			AuthToken: user.AuthToken,
 		}
-		return requestedUser, err
+		return requestedUser, nil
 	} else if user.Password != nil && user.Username != nil {
 		internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
 		password, ok := s.createHashPassword(*user.Password)
 		if !ok {
-			return nil, InternalServiceError
+			return nil, internal.InternalServiceError
 		}
 
 		currentUser, err := s.cacheUserStorage.GetUser(*user.Username, password)
 
 		if err != nil {
 			currentUser, err = s.userStorage.GetUser(*user.Username, password)
-			if err != nil || (currentUser.Password == nil && currentUser.Username == nil && currentUser.UserID == nil) {
+			if err != nil{
 				return nil, err
 			}
 
-			_, cacheErr := s.cacheUserStorage.CreateUser(*currentUser.Username, *currentUser.Password, currentUser.UserID)
+			_, cacheErr := s.cacheUserStorage.CreateUser(*currentUser.Username, password, currentUser.UserID)
 			if cacheErr != nil {
 				s.log.Warning(context.Background(), cacheErr)
 			}
 
 			requestedUser = &entities.User{
 				Username: currentUser.Username,
-				Password: currentUser.Password,
 				UserID:   currentUser.UserID,
 			}
-			return requestedUser, err
+			return requestedUser, nil
 
 		} else {
 			return currentUser, nil
 		}
 	}
 
-	return nil, NoAuthenticationDataProvidedError
+	return nil, internal.NoAuthenticationDataProvidedError
 }
 
+func (s *AuthInteractor) Logout(token string) error{
+	return s.tokenStorage.Del(token)
+}
+
+func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error){
+	internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
+
+	if user.Username == nil || user.Password == nil{
+		password, ok := s.createHashPassword(*user.Password)
+		if !ok {
+			return nil, internal.InternalServiceError
+		}
+
+		_, err := s.cacheUserStorage.GetUser(*user.Username, password)
+		if err == nil{
+			return nil, internal.UserAlreadyRegistered
+		}
+
+		user, err = s.userStorage.CreateUser(*user.Username, password, nil)
+		if err != nil{
+			return nil, err
+		}
+
+		_, cacheErr := s.cacheUserStorage.CreateUser(*user.Username, password, user.UserID)
+		if cacheErr != nil {
+			s.log.Warning(context.Background(), cacheErr)
+		}
+
+		authToken := s.createAuthToken(s.tokenSize)
+		err = s.tokenStorage.Set(authToken, *user.UserID)
+		if err != nil{
+			return nil, internal.InternalServiceError
+		}
+
+		requestedUser := &entities.User{
+			Username: user.Username,
+			AuthToken: &authToken,
+			UserID:   user.UserID,
+		}
+		return requestedUser, nil
+	}
+
+	return nil, internal.NoAuthenticationDataProvidedError
+}
 func (s *AuthInteractor) createHashPassword(password string) (string, bool) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+s.salt), 7)
 	return string(hashedPassword), err == nil

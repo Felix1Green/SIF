@@ -13,6 +13,8 @@ enum Errors {
   IncorrectUser = 0;
   UserAlreadyRegistered = 1;
   NotEnoughRightsToCreateUser = 2;
+  InternalServiceError = 3;
+  NoAuthDataProvided = 4;
 }
 
 message AuthIn{
@@ -46,5 +48,6 @@ message RegisterOut{
   optional int64 userId = 1;
   bool success = 2;
   optional Errors error = 3;
+  optional string userToken = 4;
 }
 

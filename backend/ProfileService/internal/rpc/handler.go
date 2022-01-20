@@ -1,11 +1,11 @@
 package rpc
 
 import (
-	"context"
 	"ProfileService/internal"
 	"ProfileService/internal/entities"
 	"ProfileService/internal/generated/service/profile"
 	"ProfileService/internal/interactor"
+	"context"
 	"github.com/sirupsen/logrus"
 )
 
