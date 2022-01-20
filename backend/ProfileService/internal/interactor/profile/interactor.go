@@ -8,52 +8,52 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type useCase struct{
-	sanitizer        *bluemonday.Policy
-	userStorage      components.UserStorage
-	log              *logrus.Logger
+type useCase struct {
+	sanitizer   *bluemonday.Policy
+	userStorage components.UserStorage
+	log         *logrus.Logger
 }
 
-func NewInteractor(userStorage components.UserStorage, log *logrus.Logger) *useCase{
+func NewInteractor(userStorage components.UserStorage, log *logrus.Logger) *useCase {
 	return &useCase{
-		sanitizer: bluemonday.UGCPolicy(),
+		sanitizer:   bluemonday.UGCPolicy(),
 		userStorage: userStorage,
-		log: log,
+		log:         log,
 	}
 }
 
-func (u *useCase) CreateProfile(profile *entities.Profile) (*entities.Profile, error){
-	if !u.isDataCorrect(profile){
+func (u *useCase) CreateProfile(profile *entities.Profile) (*entities.Profile, error) {
+	if !u.isDataCorrect(profile) {
 		return nil, internal.ProfileDataNotProvidedError
 	}
 
 	profile, err := u.userStorage.CreateProfile(profile)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	return profile, nil
 }
 
-func (u *useCase) GetProfileByUserID(userID int64) (*entities.Profile, error){
+func (u *useCase) GetProfileByUserID(userID int64) (*entities.Profile, error) {
 	profile, err := u.userStorage.GetProfileByID(userID)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	return profile, nil
 }
 
-func (u *useCase) GetAllProfiles() ([]*entities.Profile, error){
+func (u *useCase) GetAllProfiles() ([]*entities.Profile, error) {
 	profiles, err := u.userStorage.GetAllProfiles()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	return profiles, err
 }
 
-func (u *useCase) isDataCorrect(profile *entities.Profile) (bool){
+func (u *useCase) isDataCorrect(profile *entities.Profile) bool {
 	internal.SanitizeInput(
 		u.sanitizer,
 		&profile.UserMail,
@@ -62,7 +62,7 @@ func (u *useCase) isDataCorrect(profile *entities.Profile) (bool){
 		profile.UserSurname,
 	)
 
-	if profile.UserMail == "" || profile.UserID == 0{
+	if profile.UserMail == "" || profile.UserID == 0 {
 		return false
 	}
 

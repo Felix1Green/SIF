@@ -56,7 +56,7 @@ func (s *RedisCacheUserStorage) GetUser(username, password string) (*entities.Us
 	k := s.createKey(username, password)
 	value, err := redis.Int64(s.backoffDo(conn, "GET", k))
 	if err != nil {
-		return nil, UserNotFoundError
+		return nil, internal.UserNotFoundError
 	}
 	return &entities.User{
 		UserID:   &value,
@@ -76,7 +76,7 @@ func (s *RedisCacheUserStorage) CreateUser(username, password string, userID *in
 	k := s.createKey(username, password)
 	_, err := s.backoffDo(conn, "SET", k, strconv.Itoa(int(*userID)))
 	if err != nil {
-		return nil, InternalServiceError
+		return nil, internal.InternalServiceError
 	}
 
 	return &entities.User{

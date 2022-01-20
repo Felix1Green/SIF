@@ -13,18 +13,17 @@ import (
 	"time"
 )
 
-
-func main(){
+func main() {
 	logger := logrus.New()
 	port := 8889
 	pool, err := pgx.NewConnPool(pgx.ConnPoolConfig{
 		MaxConnections: 10,
 		AcquireTimeout: time.Minute,
 		ConnConfig: pgx.ConnConfig{
-			Host: "postgresql",
-			Port: 5432,
+			Host:     "postgresql",
+			Port:     5432,
 			Database: "profile_service",
-			User: "profile",
+			User:     "profile",
 			Password: "profile_pass",
 		},
 	})
@@ -48,7 +47,7 @@ func main(){
 
 	logger.Infof("starting profile service listening on port: %d", port)
 	lis, err := net.Listen("tcp", fmt.Sprintf("profile:%d", port))
-	if err != nil{
+	if err != nil {
 		logger.Fatalf("err during listening to port: %d", port)
 	}
 
