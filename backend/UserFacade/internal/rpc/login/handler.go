@@ -66,6 +66,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 	if result.Error != nil {
 		switch *result.Error {
 		case auth.Errors_IncorrectUser:
+			w.WriteHeader(http.StatusUnauthorized)
 			outputErr := handlerErrors.AuthError{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "incorrect username or password",
@@ -76,7 +77,6 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusServiceUnavailable)
 				return
 			}
-			w.WriteHeader(http.StatusUnauthorized)
 			return
 		default:
 			w.WriteHeader(http.StatusServiceUnavailable)

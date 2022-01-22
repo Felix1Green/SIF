@@ -61,7 +61,7 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 		id, err := s.tokenStorage.Get(*user.AuthToken)
 		if err != nil {
 			s.log.Warning(context.Background(), err)
-			return nil, internal.InternalServiceError
+			return nil, internal.UserNotFoundError
 		}
 
 		requestedUser = &entities.User{
