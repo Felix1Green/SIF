@@ -1,9 +1,17 @@
 package handlersDto
 
 type AuthOutDto struct {
-	UserName string
+	UserID      int64
+	Username    *string
+	UserMail    string
+	UserSurname *string
+	UserRole    *string
 }
 
 type RegisterOutDto struct {
-	UserID int64
+	UserID      int64
+	Username    *string
+	UserMail    string
+	UserSurname *string
+	UserRole    *string
 }

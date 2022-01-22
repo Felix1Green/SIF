@@ -5,5 +5,6 @@ type User struct {
 }
 
 type RegisterUser struct {
-	Username, Password string
+	Password, UserMail              string
+	UserName, UserSurname, UserRole *string
 }

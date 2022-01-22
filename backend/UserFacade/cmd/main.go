@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/clients/auth_service"
+	"github.com/Felix1Green/SIF/backend/UserFacade/internal/clients/profile_service"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/middleware"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/login"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/logout"
@@ -19,11 +20,16 @@ func main() {
 		logger.Errorf("cannot connect to auth service: %s", err.Error())
 		return
 	}
+	profileServiceClient, err := profile_service.NewClientFromEnv()
+	if err != nil {
+		logger.Errorf("cannot connect to profile service: %s", err.Error())
+		return
+	}
 	logger.Info("Dependent services initializing finished")
 
-	loginHandler := login.NewLoginHandler(authServiceClient, logger)
+	loginHandler := login.NewHandler(authServiceClient, profileServiceClient, logger)
 	logoutHandler := logout.NewHandler(authServiceClient, logger)
-	registerHandler := register.NewHandler(authServiceClient, logger)
+	registerHandler := register.NewHandler(authServiceClient, profileServiceClient, logger)
 
 	handler := http.NewServeMux()
 	handler.HandleFunc("/login", loginHandler.Handle)

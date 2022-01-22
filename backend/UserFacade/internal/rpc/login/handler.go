@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
+	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/profile"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlerErrors"
+	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlersDto"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/user"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc"
 	"github.com/sirupsen/logrus"
@@ -15,14 +17,16 @@ import (
 )
 
 type handler struct {
-	authServiceClient auth.AuthClient
-	log               *logrus.Logger
+	authServiceClient    auth.AuthClient
+	profileServiceClient profile.ProfileClient
+	log                  *logrus.Logger
 }
 
-func NewLoginHandler(authServiceClient auth.AuthClient, logger *logrus.Logger) *handler {
+func NewHandler(authServiceClient auth.AuthClient, profileServiceClient profile.ProfileClient, logger *logrus.Logger) *handler {
 	return &handler{
-		authServiceClient: authServiceClient,
-		log:               logger,
+		authServiceClient:    authServiceClient,
+		profileServiceClient: profileServiceClient,
+		log:                  logger,
 	}
 }
 
@@ -63,7 +67,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if result.Error != nil {
+	if result.Error != nil || !result.Success {
 		switch *result.Error {
 		case auth.Errors_IncorrectUser:
 			w.WriteHeader(http.StatusUnauthorized)
@@ -84,10 +88,47 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if result.Success {
-		w.WriteHeader(http.StatusOK)
+	profileDto := &profile.GetProfileByUserIDIn{
+		UserID: *result.UserId,
+	}
+
+	profileResponse, err := h.profileServiceClient.GetProfileByUserID(context.Background(), profileDto)
+	if err != nil {
+		h.log.Error(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	if !profileResponse.Success {
+		switch *profileResponse.Error {
+		case profile.Errors_ProfileNotFound, profile.Errors_ProfileDataNotProvided:
+			w.WriteHeader(http.StatusUnauthorized)
+			outputErr := handlerErrors.AuthError{
+				ErrorCode:    http.StatusUnauthorized,
+				ErrorMessage: "incorrect username or password",
+			}
+			bytes, _ := json.Marshal(outputErr)
+			_, err = w.Write(bytes)
+			if err != nil {
+				w.WriteHeader(http.StatusServiceUnavailable)
+				return
+			}
+		default:
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	}
+
+	outputDto := &handlersDto.AuthOutDto{
+		UserID:      profileResponse.Profile.UserID,
+		Username:    profileResponse.Profile.UserName,
+		UserMail:    profileResponse.Profile.UserMail,
+		UserRole:    profileResponse.Profile.UserRole,
+		UserSurname: profileResponse.Profile.UserSurname,
+	}
+
+	rawOutDto, _ := json.Marshal(outputDto)
+	_, _ = w.Write(rawOutDto)
 }
 
 func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
