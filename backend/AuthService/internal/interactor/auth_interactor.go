@@ -61,7 +61,7 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 		id, err := s.tokenStorage.Get(*user.AuthToken)
 		if err != nil {
 			s.log.Warning(context.Background(), err)
-			return nil, internal.InternalServiceError
+			return nil, internal.UserNotFoundError
 		}
 
 		requestedUser = &entities.User{
@@ -71,20 +71,21 @@ func (s *AuthInteractor) Auth(user *entities.User) (requestedUser *entities.User
 		return requestedUser, nil
 	} else if user.Password != nil && user.Username != nil {
 		internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
-		password, ok := s.createHashPassword(*user.Password)
-		if !ok {
-			return nil, internal.InternalServiceError
-		}
 
-		currentUser, err := s.cacheUserStorage.GetUser(*user.Username, password)
+		currentUser, err := s.cacheUserStorage.GetUser(*user.Username)
 
 		if err != nil {
-			currentUser, err = s.userStorage.GetUser(*user.Username, password)
+			currentUser, err = s.userStorage.GetUser(*user.Username)
 			if err != nil {
 				return nil, err
 			}
 
-			_, cacheErr := s.cacheUserStorage.CreateUser(*currentUser.Username, password, currentUser.UserID)
+			passwordErr := bcrypt.CompareHashAndPassword([]byte(*currentUser.Password), []byte(*user.Password+s.salt))
+			if passwordErr != nil {
+				return nil, internal.UserNotFoundError
+			}
+
+			_, cacheErr := s.cacheUserStorage.CreateUser(*currentUser.Username, *currentUser.Password, currentUser.UserID)
 			if cacheErr != nil {
 				s.log.Warning(context.Background(), cacheErr)
 			}
@@ -110,19 +111,22 @@ func (s *AuthInteractor) Logout(token string) error {
 func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error) {
 	internal.SanitizeInput(s.sanitizer, user.Username, user.Password)
 
-	if user.Username == nil || user.Password == nil {
+	if user.Username != nil && user.Password != nil {
 		password, ok := s.createHashPassword(*user.Password)
 		if !ok {
+			s.log.Error("cannot create hash password")
 			return nil, internal.InternalServiceError
 		}
 
-		_, err := s.cacheUserStorage.GetUser(*user.Username, password)
+		_, err := s.cacheUserStorage.GetUser(*user.Username)
 		if err == nil {
+			s.log.Error(err)
 			return nil, internal.UserAlreadyRegistered
 		}
 
 		user, err = s.userStorage.CreateUser(*user.Username, password, nil)
 		if err != nil {
+			s.log.Error(err)
 			return nil, err
 		}
 
@@ -134,6 +138,7 @@ func (s *AuthInteractor) Register(user *entities.User) (*entities.User, error) {
 		authToken := s.createAuthToken(s.tokenSize)
 		err = s.tokenStorage.Set(authToken, *user.UserID)
 		if err != nil {
+			s.log.Error(err)
 			return nil, internal.InternalServiceError
 		}
 

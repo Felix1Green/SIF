@@ -9,6 +9,6 @@ type TokenStorage interface {
 }
 
 type UserStorage interface {
-	GetUser(username, password string) (*entities.User, error)
+	GetUser(username string) (*entities.User, error)
 	CreateUser(username, password string, userID *int64) (*entities.User, error)
 }

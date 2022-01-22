@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Felix1Green/SIF/backend/AuthService/internal"
 	"github.com/Felix1Green/SIF/backend/AuthService/internal/entities"
@@ -33,6 +34,7 @@ func (s *handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 		AuthToken: in.AuthToken,
 	})
 	if err != nil {
+		fmt.Println(err)
 		success = false
 		switch err {
 		case internal.UserNotFoundError:
@@ -54,7 +56,6 @@ func (s *handler) Auth(ctx context.Context, in *service.AuthIn) (*service.AuthOu
 	return &service.AuthOut{
 		UserId:    userId,
 		Success:   success,
-		Error:     &outErr,
 		UserToken: userToken,
 	}, nil
 }
@@ -70,6 +71,7 @@ func (s *handler) LogOut(ctx context.Context, in *service.LogoutIn) (*service.Lo
 
 	err := s.authInteractor.Logout(in.AuthToken)
 	if err != nil {
+		fmt.Println(err)
 		outErr := service.Errors_InternalServiceError
 		return &service.LogoutOut{
 			Success: false,
@@ -95,6 +97,7 @@ func (s *handler) Register(ctx context.Context, in *service.RegisterIn) (*servic
 		Password: &in.Password,
 	})
 	if err != nil {
+		fmt.Println(err)
 		success = false
 		switch err {
 		case internal.UserAlreadyRegistered:
@@ -117,7 +120,6 @@ func (s *handler) Register(ctx context.Context, in *service.RegisterIn) (*servic
 	return &service.RegisterOut{
 		UserId:    userId,
 		Success:   success,
-		Error:     &outErr,
 		UserToken: userToken,
 	}, nil
 }

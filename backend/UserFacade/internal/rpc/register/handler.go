@@ -8,9 +8,11 @@ import (
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlerErrors"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlersDto"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/user"
+	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 type handler struct {
@@ -52,11 +54,38 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if response.Error != nil {
+		h.log.Error(response.Error)
 		switch *response.Error {
 		case auth.Errors_NotEnoughRightsToCreateUser:
 			w.WriteHeader(http.StatusForbidden)
 			return
 		case auth.Errors_UserAlreadyRegistered:
+			body := handlerErrors.AuthError{
+				ErrorMessage: "user already registered",
+				ErrorCode:    http.StatusBadRequest,
+			}
+			rawDto, _ := json.Marshal(body)
+			_, err = w.Write(rawDto)
+			if err != nil {
+				w.WriteHeader(http.StatusServiceUnavailable)
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		case auth.Errors_NoAuthDataProvided:
+			body := handlerErrors.AuthError{
+				ErrorMessage: "no auth data",
+				ErrorCode:    http.StatusBadRequest,
+			}
+			rawDto, _ := json.Marshal(body)
+			_, err = w.Write(rawDto)
+			if err != nil {
+				w.WriteHeader(http.StatusServiceUnavailable)
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		case auth.Errors_IncorrectUser:
 			body := handlerErrors.AuthError{
 				ErrorMessage: "user already registered",
 				ErrorCode:    http.StatusBadRequest,
@@ -83,11 +112,16 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	outDto := handlersDto.RegisterOutDto{
 		UserID: *response.UserId,
 	}
-	rawOut, _ := json.Marshal(outDto)
-	_, err = w.Write(rawOut)
-	if err != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
+
+	cookie := &http.Cookie{
+		Name:    rpc.CookieName,
+		Value:   *response.UserToken,
+		Expires: time.Now().AddDate(rpc.CookieExpiresYear, rpc.CookieExpiresMonth, rpc.CookieExpiresDay),
+		Path:    "/",
+		Secure:  true,
 	}
-	w.WriteHeader(http.StatusOK)
+	http.SetCookie(w, cookie)
+
+	rawOut, _ := json.Marshal(outDto)
+	_, _ = w.Write(rawOut)
 }
