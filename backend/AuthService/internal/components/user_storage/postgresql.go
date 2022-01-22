@@ -1,6 +1,7 @@
 package user_storage
 
 import (
+	"fmt"
 	"github.com/Felix1Green/SIF/backend/AuthService/internal"
 
 	"github.com/jackc/pgx"
@@ -18,19 +19,21 @@ func NewPostgresUserStorage(pool *pgx.ConnPool) *PostgresUserStorage {
 	}
 }
 
-func (s *PostgresUserStorage) GetUser(username, password string) (*entities.User, error) {
+func (s *PostgresUserStorage) GetUser(username string) (*entities.User, error) {
 	if s.pool == nil {
 		return nil, internal.InternalServiceError
 	}
 
-	query := "SELECT user_id, username, password from User where username = $1 and password = $2"
+	query := "SELECT user_id, username, password from Users where username = $1"
 	user := &entities.User{}
-	result := s.pool.QueryRow(query, username, password)
+	result := s.pool.QueryRow(query, username)
 	if result == nil {
+		fmt.Println("result is nil")
 		return nil, internal.UserNotFoundError
 	}
 	err := result.Scan(&user.UserID, &user.Username, &user.Password)
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, internal.UserNotFoundError
 	}
 
@@ -43,7 +46,7 @@ func (s *PostgresUserStorage) CreateUser(username, password string, userID *int6
 	}
 	user := &entities.User{}
 
-	query := "INSERT INTO User (username, password) VALUES ($1, $2) RETURNING user_id"
+	query := "INSERT INTO Users (username, password) VALUES ($1, $2) RETURNING user_id"
 	result := s.pool.QueryRow(query, username, password)
 	err := result.Scan(&user.UserID)
 	if err != nil {

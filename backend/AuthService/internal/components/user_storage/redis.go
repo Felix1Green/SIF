@@ -2,7 +2,6 @@ package user_storage
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/cenkalti/backoff"
@@ -48,46 +47,49 @@ func NewRedisUserStorageFromEnv(pool *redis.Pool) (*RedisCacheUserStorage, error
 	return NewRedisUserStorage(pool, options.BackoffMaxValue, options.BackoffMaxTries), nil
 }
 
-func (s *RedisCacheUserStorage) GetUser(username, password string) (*entities.User, error) {
-	conn := s.pool.Get()
-	defer func() {
-		_ = conn.Close()
-	}()
-	k := s.createKey(username, password)
-	value, err := redis.Int64(s.backoffDo(conn, "GET", k))
-	if err != nil {
-		return nil, internal.UserNotFoundError
-	}
-	return &entities.User{
-		UserID:   &value,
-		Username: &username,
-		Password: &password,
-	}, nil
+// TODO: добавить hMap для хранения пароля и UserID
+func (s *RedisCacheUserStorage) GetUser(username string) (*entities.User, error) {
+	return nil, internal.UserNotFoundError
+	//conn := s.pool.Get()
+	//defer func() {
+	//	_ = conn.Close()
+	//}()
+	//k := s.createKey(username)
+	//value, err := redis.Int64(s.backoffDo(conn, "GET", k))
+	//if err != nil {
+	//	return nil, internal.UserNotFoundError
+	//}
+	//return &entities.User{
+	//	UserID:   &value,
+	//	Username: &username,
+	//}, nil
 }
 
+// TODO: добавить hMap для хранения пароля и UserID
 func (s *RedisCacheUserStorage) CreateUser(username, password string, userID *int64) (*entities.User, error) {
-	if userID == nil {
-		return nil, UserIdNotProvidedError
-	}
-	conn := s.pool.Get()
-	defer func() {
-		_ = conn.Close()
-	}()
-	k := s.createKey(username, password)
-	_, err := s.backoffDo(conn, "SET", k, strconv.Itoa(int(*userID)))
-	if err != nil {
-		return nil, internal.InternalServiceError
-	}
-
-	return &entities.User{
-		UserID:   userID,
-		Username: &username,
-		Password: &password,
-	}, nil
+	return nil, nil
+	//if userID == nil {
+	//	return nil, UserIdNotProvidedError
+	//}
+	//conn := s.pool.Get()
+	//defer func() {
+	//	_ = conn.Close()
+	//}()
+	//k := s.createKey(username)
+	//_, err := s.backoffDo(conn, "SET", k, strconv.Itoa(int(*userID)))
+	//if err != nil {
+	//	return nil, internal.InternalServiceError
+	//}
+	//
+	//return &entities.User{
+	//	UserID:   userID,
+	//	Username: &username,
+	//	Password: &password,
+	//}, nil
 }
 
-func (s *RedisCacheUserStorage) createKey(username, password string) string {
-	return fmt.Sprintf("%s.%s.%s", component, username, password)
+func (s *RedisCacheUserStorage) createKey(username string) string {
+	return fmt.Sprintf("%s.%s", component, username)
 }
 
 func (s *RedisCacheUserStorage) backoffDo(conn redis.Conn, commandName string, args ...interface{}) (reply interface{}, err error) {

@@ -14,12 +14,6 @@ import (
 	"time"
 )
 
-var (
-	cookieExpiresYear  = 0
-	cookieExpiresMonth = 1
-	cookieExpiresDay   = 0
-)
-
 type handler struct {
 	authServiceClient auth.AuthClient
 	log               *logrus.Logger
@@ -45,9 +39,10 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 	authToken := ""
-	if val, err := r.Cookie(rpc.CookieName); err != nil && val != nil {
+	if val, err := r.Cookie(rpc.CookieName); err == nil && val != nil {
 		authToken = val.Value
 	} else {
+		h.log.Error("no auth token found")
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
@@ -153,7 +148,7 @@ func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
 		cookie := &http.Cookie{
 			Name:     rpc.CookieName,
 			Value:    *result.UserToken,
-			Expires:  time.Now().AddDate(cookieExpiresYear, cookieExpiresMonth, cookieExpiresDay),
+			Expires:  time.Now().AddDate(rpc.CookieExpiresYear, rpc.CookieExpiresMonth, rpc.CookieExpiresDay),
 			Secure:   true,
 			HttpOnly: true,
 		}
