@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/middleware/cors"
+	"UserFacade/internal/middleware/cors"
 	"net/http"
 )
 

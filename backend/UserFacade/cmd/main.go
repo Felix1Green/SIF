@@ -1,17 +1,29 @@
 package main
 
 import (
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/clients/auth_service"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/clients/profile_service"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/middleware"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/get_all_profiles"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/login"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/logout"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc/register"
+	_ "UserFacade/docs"
+	"UserFacade/internal/clients/auth_service"
+	"UserFacade/internal/clients/profile_service"
+	"UserFacade/internal/rpc/get_all_profiles"
+	"UserFacade/internal/rpc/login"
+	"UserFacade/internal/rpc/logout"
+	"UserFacade/internal/rpc/register"
 	"github.com/sirupsen/logrus"
+
+	//"UserFacade/internal/clients/auth_service"
+	//"UserFacade/internal/clients/profile_service"
+	"UserFacade/internal/middleware"
+
+	"github.com/swaggo/http-swagger"
 	"net/http"
 )
 
+// Backend doc
+// @title SIF Backend API
+// @version 0.5
+// @description This is a backend API
+// @host https://localhost:8080
+// @BasePath /
 func main() {
 	logger := logrus.New()
 
@@ -32,12 +44,12 @@ func main() {
 	logoutHandler := logout.NewHandler(authServiceClient, logger)
 	registerHandler := register.NewHandler(authServiceClient, profileServiceClient, logger)
 	getAllProfilesHandler := get_all_profiles.NewHandler(profileServiceClient, logger)
-
 	handler := http.NewServeMux()
 	handler.HandleFunc("/login", loginHandler.Handle)
 	handler.HandleFunc("/register", registerHandler.Handle)
 	handler.HandleFunc("/logout", logoutHandler.Handle)
 	handler.HandleFunc("/profiles", getAllProfilesHandler.Handle)
+	handler.HandleFunc("/docs", httpSwagger.Handler())
 
 	handlers := middleware.SetupMiddleware(handler)
 	err = http.ListenAndServe(":8080", handlers)

@@ -1,15 +1,15 @@
 package register
 
 import (
+	"UserFacade/internal/generated/clients/auth"
+	"UserFacade/internal/generated/clients/profile"
+	"UserFacade/internal/models/handlerErrors"
+	"UserFacade/internal/models/handlersDto"
+	"UserFacade/internal/models/user"
+	"UserFacade/internal/rpc"
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/profile"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlerErrors"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlersDto"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/user"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
@@ -30,6 +30,15 @@ func NewHandler(authServiceClient auth.AuthClient, profileServiceClient profile.
 	}
 }
 
+// Register godoc
+// @Summary Register
+// @Description Register user
+// @ID register-id
+// @Param User_info body user.RegisterUser true "user credentials"
+// @Success 200
+// @Failure 503 {object} handlerErrors.Error
+// @Failure 400 {object} handlerErrors.Error
+// @Failure 403 {object} handlerErrors.Error
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)

@@ -1,7 +1,7 @@
 package auth_service
 
 import (
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
+	"UserFacade/internal/generated/clients/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/credentials/insecure"

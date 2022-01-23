@@ -1,7 +1,7 @@
 package profile_service
 
 import (
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/profile"
+	"UserFacade/internal/generated/clients/profile"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/credentials/insecure"
