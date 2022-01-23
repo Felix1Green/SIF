@@ -86,7 +86,7 @@ func (h *handler) GetAllProfiles(ctx context.Context, in *profile.GetAllProfiles
 		}
 	}
 
-	ProfilesData := make([]*profile.ProfileData, len(profiles))
+	ProfilesData := make([]*profile.ProfileData, 0)
 	for _, profileData := range profiles {
 		ProfilesData = append(ProfilesData, &profile.ProfileData{
 			UserID:      profileData.UserID,
@@ -98,6 +98,7 @@ func (h *handler) GetAllProfiles(ctx context.Context, in *profile.GetAllProfiles
 	}
 
 	return &profile.GetAllProfilesOut{
+		Success:  true,
 		Profiles: ProfilesData,
 	}, nil
 }

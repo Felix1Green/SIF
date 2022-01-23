@@ -57,7 +57,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 
 	result, err := h.authServiceClient.Auth(context.Background(), authDto)
 	if err != nil {
-		errInfo := handlerErrors.AuthError{
+		errInfo := handlerErrors.Error{
 			ErrorCode:    http.StatusBadRequest,
 			ErrorMessage: "no authentication data provided",
 		}
@@ -71,7 +71,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 		switch *result.Error {
 		case auth.Errors_IncorrectUser:
 			w.WriteHeader(http.StatusUnauthorized)
-			outputErr := handlerErrors.AuthError{
+			outputErr := handlerErrors.Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "incorrect username or password",
 			}
@@ -103,7 +103,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 		switch *profileResponse.Error {
 		case profile.Errors_ProfileNotFound, profile.Errors_ProfileDataNotProvided:
 			w.WriteHeader(http.StatusUnauthorized)
-			outputErr := handlerErrors.AuthError{
+			outputErr := handlerErrors.Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "incorrect username or password",
 			}
@@ -139,7 +139,7 @@ func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
 
 	if inputCredentials.Username == nil && inputCredentials.AuthToken == nil {
 		w.WriteHeader(http.StatusBadRequest)
-		errInfo := handlerErrors.AuthError{
+		errInfo := handlerErrors.Error{
 			ErrorCode:    http.StatusBadRequest,
 			ErrorMessage: "no authentication data provided",
 		}
@@ -164,7 +164,7 @@ func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
 	if result.Error != nil {
 		switch *result.Error {
 		case auth.Errors_IncorrectUser:
-			outputErr := handlerErrors.AuthError{
+			outputErr := handlerErrors.Error{
 				ErrorCode:    http.StatusUnauthorized,
 				ErrorMessage: "incorrect username or password",
 			}
