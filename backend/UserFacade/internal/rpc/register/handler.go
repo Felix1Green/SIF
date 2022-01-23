@@ -129,7 +129,8 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !profileResponse.Success {
+	if !profileResponse.Success || profileResponse.Error != nil {
+		h.log.Error(profileResponse.Error)
 		switch *profileResponse.Error {
 		case profile.Errors_ProfileDataNotProvided:
 			w.WriteHeader(http.StatusBadRequest)
@@ -138,11 +139,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 				ErrorMessage: "incorrect username or password",
 			}
 			bytes, _ := json.Marshal(outputErr)
-			_, err = w.Write(bytes)
-			if err != nil {
-				w.WriteHeader(http.StatusServiceUnavailable)
-				return
-			}
+			_, _ = w.Write(bytes)
 		case profile.Errors_ProfileAlreadyExists:
 			w.WriteHeader(http.StatusBadRequest)
 			outputErr := handlerErrors.AuthError{
@@ -150,15 +147,11 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 				ErrorMessage: "profile already exists",
 			}
 			bytes, _ := json.Marshal(outputErr)
-			_, err = w.Write(bytes)
-			if err != nil {
-				w.WriteHeader(http.StatusServiceUnavailable)
-				return
-			}
+			_, _ = w.Write(bytes)
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
-			return
 		}
+		return
 	}
 
 	outDto := handlersDto.RegisterOutDto{

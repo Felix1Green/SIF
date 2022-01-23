@@ -81,11 +81,10 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusServiceUnavailable)
 				return
 			}
-			return
 		default:
 			w.WriteHeader(http.StatusServiceUnavailable)
-			return
 		}
+		return
 	}
 
 	profileDto := &profile.GetProfileByUserIDIn{
@@ -100,6 +99,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !profileResponse.Success {
+		h.log.Error(profileResponse)
 		switch *profileResponse.Error {
 		case profile.Errors_ProfileNotFound, profile.Errors_ProfileDataNotProvided:
 			w.WriteHeader(http.StatusUnauthorized)
@@ -108,15 +108,12 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 				ErrorMessage: "incorrect username or password",
 			}
 			bytes, _ := json.Marshal(outputErr)
-			_, err = w.Write(bytes)
-			if err != nil {
-				w.WriteHeader(http.StatusServiceUnavailable)
-				return
-			}
+			_, _ = w.Write(bytes)
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
-			return
 		}
+
+		return
 	}
 
 	outputDto := &handlersDto.AuthOutDto{
@@ -172,17 +169,12 @@ func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
 				ErrorMessage: "incorrect username or password",
 			}
 			bytes, _ := json.Marshal(outputErr)
-			_, err = w.Write(bytes)
-			if err != nil {
-				w.WriteHeader(http.StatusServiceUnavailable)
-				return
-			}
+			_, _ = w.Write(bytes)
 			w.WriteHeader(http.StatusUnauthorized)
-			return
 		default:
 			w.WriteHeader(http.StatusServiceUnavailable)
-			return
 		}
+		return
 	}
 
 	if result.Success {

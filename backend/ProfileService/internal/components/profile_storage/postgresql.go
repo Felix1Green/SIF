@@ -53,8 +53,9 @@ func (r *PostgresProfileStorage) GetProfileByID(userID int64) (*entities.Profile
 	query := "SELECT user_id, user_mail, username, user_surname, user_role from Profile where user_id = $1"
 	result := r.pool.QueryRow(query, userID)
 
-	err := result.Scan(&profile)
+	err := result.Scan(&profile.UserID, &profile.UserMail, &profile.UserName, &profile.UserSurname, &profile.UserRole)
 	if err != nil {
+		r.log.Error(err)
 		switch err.(type) {
 		case pgx.PgError:
 			r.log.Errorf("postgresql server error: %s", err.Error())

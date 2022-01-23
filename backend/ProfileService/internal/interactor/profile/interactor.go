@@ -63,6 +63,7 @@ func (u *useCase) isDataCorrect(profile *entities.Profile) bool {
 	)
 
 	if profile.UserMail == "" || profile.UserID == 0 {
+		u.log.Infof("not profile provided, %s, %d", profile.UserMail, profile.UserID)
 		return false
 	}
 
