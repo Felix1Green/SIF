@@ -1,10 +1,10 @@
 package logout
 
 import (
+	"UserFacade/internal/generated/clients/auth"
+	"UserFacade/internal/rpc"
 	"context"
 	"fmt"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/rpc"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -37,6 +37,12 @@ func deleteSessionCookie(w http.ResponseWriter, name string) {
 	http.SetCookie(w, &cookie)
 }
 
+// Logout godoc
+// @Summary log out
+// @Description log out user
+// @ID logout-id
+// @Success 200
+// @Failure 503 {object} handlerErrors.Error
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)

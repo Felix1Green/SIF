@@ -1,10 +1,10 @@
 package get_all_profiles
 
 import (
+	"UserFacade/internal/generated/clients/profile"
+	"UserFacade/internal/models/handlerErrors"
 	"context"
 	"encoding/json"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/profile"
-	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlerErrors"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -21,6 +21,12 @@ func NewHandler(profileServiceClient profile.ProfileClient, logger *logrus.Logge
 	}
 }
 
+// GetAllProfiles godoc
+// @Summary GetAllProfiles
+// @Description Get all profiles of the service
+// @ID get-all-profiles-id
+// @Success 200 {array} profile.ProfileData
+// @Failure 503 {object} handlerErrors.Error
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:

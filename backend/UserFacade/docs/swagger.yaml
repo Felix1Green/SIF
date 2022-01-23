@@ -1,0 +1,50 @@
+definitions:
+  handlerErrors.Error:
+    properties:
+      errorCode:
+        type: integer
+      errorMessage:
+        type: string
+    type: object
+  handlersDto.AuthOutDto:
+    properties:
+      userID:
+        type: integer
+      userMail:
+        type: string
+      userRole:
+        type: string
+      userSurname:
+        type: string
+      username:
+        type: string
+    type: object
+  profile.ProfileData:
+    properties:
+      UserID:
+        type: integer
+      UserMail:
+        type: string
+      UserName:
+        type: string
+      UserRole:
+        type: string
+      UserSurname:
+        type: string
+    type: object
+  user.RegisterUser:
+    properties:
+      password:
+        type: string
+      userName:
+        type: string
+    type: object
+  user.User:
+    properties:
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths: {}
+swagger: "2.0"
