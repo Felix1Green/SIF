@@ -108,12 +108,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
-	Host:        "",
-	BasePath:    "",
+	Version:     "0.5",
+	Host:        "https://localhost:8080",
+	BasePath:    "/",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "SIF Backend API",
+	Description: "This is a backend API",
 }
 
 type s struct{}

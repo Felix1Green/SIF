@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   handlerErrors.Error:
     properties:
@@ -44,7 +45,11 @@ definitions:
       username:
         type: string
     type: object
+host: https://localhost:8080
 info:
   contact: {}
+  description: This is a backend API
+  title: SIF Backend API
+  version: "0.5"
 paths: {}
 swagger: "2.0"
