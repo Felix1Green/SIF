@@ -85,7 +85,7 @@ func (r *PostgresProfileStorage) GetAllProfiles() ([]*entities.Profile, error) {
 
 	for result.Next() {
 		profile := &entities.Profile{}
-		err = result.Scan(profile)
+		err = result.Scan(&profile.UserID, &profile.UserMail, &profile.UserName, &profile.UserSurname, &profile.UserRole)
 		if err != nil {
 			r.log.Errorf("postgresql server error: %s", err.Error())
 			return nil, internal.ServiceInternalError

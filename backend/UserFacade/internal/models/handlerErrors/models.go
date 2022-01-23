@@ -1,6 +1,6 @@
 package handlerErrors
 
-type AuthError struct {
+type Error struct {
 	ErrorCode    int
 	ErrorMessage string
 }

@@ -63,7 +63,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		case auth.Errors_UserAlreadyRegistered:
-			body := handlerErrors.AuthError{
+			body := handlerErrors.Error{
 				ErrorMessage: "user already registered",
 				ErrorCode:    http.StatusBadRequest,
 			}
@@ -76,7 +76,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		case auth.Errors_NoAuthDataProvided:
-			body := handlerErrors.AuthError{
+			body := handlerErrors.Error{
 				ErrorMessage: "no auth data",
 				ErrorCode:    http.StatusBadRequest,
 			}
@@ -89,7 +89,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		case auth.Errors_IncorrectUser:
-			body := handlerErrors.AuthError{
+			body := handlerErrors.Error{
 				ErrorMessage: "user already registered",
 				ErrorCode:    http.StatusBadRequest,
 			}
@@ -134,7 +134,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 		switch *profileResponse.Error {
 		case profile.Errors_ProfileDataNotProvided:
 			w.WriteHeader(http.StatusBadRequest)
-			outputErr := handlerErrors.AuthError{
+			outputErr := handlerErrors.Error{
 				ErrorCode:    http.StatusBadRequest,
 				ErrorMessage: "incorrect username or password",
 			}
@@ -142,7 +142,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 			_, _ = w.Write(bytes)
 		case profile.Errors_ProfileAlreadyExists:
 			w.WriteHeader(http.StatusBadRequest)
-			outputErr := handlerErrors.AuthError{
+			outputErr := handlerErrors.Error{
 				ErrorCode:    http.StatusBadRequest,
 				ErrorMessage: "profile already exists",
 			}
