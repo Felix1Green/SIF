@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/auth"
+	"github.com/Felix1Green/SIF/backend/UserFacade/internal/generated/clients/profile"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlerErrors"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/handlersDto"
 	"github.com/Felix1Green/SIF/backend/UserFacade/internal/models/user"
@@ -16,13 +17,15 @@ import (
 )
 
 type handler struct {
-	authServiceClient auth.AuthClient
-	log               *logrus.Logger
+	authServiceClient    auth.AuthClient
+	profileServiceClient profile.ProfileClient
+	log                  *logrus.Logger
 }
 
-func NewHandler(authServiceClient auth.AuthClient, log *logrus.Logger) *handler {
+func NewHandler(authServiceClient auth.AuthClient, profileServiceClient profile.ProfileClient, log *logrus.Logger) *handler {
 	return &handler{
 		authServiceClient,
+		profileServiceClient,
 		log,
 	}
 }
@@ -36,13 +39,13 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	inputData := user.RegisterUser{}
 	body, _ := ioutil.ReadAll(r.Body)
 	_ = json.Unmarshal(body, &inputData)
-	if inputData.Username == "" || inputData.Password == "" {
+	if inputData.UserMail == "" || inputData.Password == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	RegisterIn := auth.RegisterIn{
-		UserName: inputData.Username,
+		UserName: inputData.UserMail,
 		Password: inputData.Password,
 	}
 
@@ -109,8 +112,54 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	profileDto := &profile.CreateProfileIn{
+		Profile: &profile.ProfileData{
+			UserID:      *response.UserId,
+			UserSurname: inputData.UserSurname,
+			UserMail:    inputData.UserMail,
+			UserName:    inputData.UserName,
+			UserRole:    inputData.UserRole,
+		},
+	}
+
+	profileResponse, err := h.profileServiceClient.CreateProfile(context.Background(), profileDto)
+	if err != nil {
+		h.log.Error(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if !profileResponse.Success || profileResponse.Error != nil {
+		h.log.Error(profileResponse.Error)
+		switch *profileResponse.Error {
+		case profile.Errors_ProfileDataNotProvided:
+			w.WriteHeader(http.StatusBadRequest)
+			outputErr := handlerErrors.AuthError{
+				ErrorCode:    http.StatusBadRequest,
+				ErrorMessage: "incorrect username or password",
+			}
+			bytes, _ := json.Marshal(outputErr)
+			_, _ = w.Write(bytes)
+		case profile.Errors_ProfileAlreadyExists:
+			w.WriteHeader(http.StatusBadRequest)
+			outputErr := handlerErrors.AuthError{
+				ErrorCode:    http.StatusBadRequest,
+				ErrorMessage: "profile already exists",
+			}
+			bytes, _ := json.Marshal(outputErr)
+			_, _ = w.Write(bytes)
+		default:
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
 	outDto := handlersDto.RegisterOutDto{
-		UserID: *response.UserId,
+		UserID:      *response.UserId,
+		Username:    profileResponse.Profile.UserName,
+		UserMail:    profileResponse.Profile.UserMail,
+		UserRole:    profileResponse.Profile.UserRole,
+		UserSurname: profileResponse.Profile.UserSurname,
 	}
 
 	cookie := &http.Cookie{

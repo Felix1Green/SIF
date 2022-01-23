@@ -1,0 +1,55 @@
+syntax = "proto3";
+package ProfileService;
+
+option go_package = "/profile";
+
+service Profile{
+  rpc GetProfileByUserID(GetProfileByUserIDIn) returns (GetProfileByUserIDOut);
+  rpc CreateProfile(CreateProfileIn) returns (CreateProfileOut);
+  rpc GetAllProfiles(GetAllProfilesIn) returns (GetAllProfilesOut);
+}
+
+enum Errors {
+  ProfileAlreadyExists = 0;
+  ProfileNotFound = 1;
+  ProfileDataNotProvided = 2;
+  InternalServiceError = 3;
+}
+
+message GetProfileByUserIDIn{
+  int64 UserID = 1;
+}
+
+message ProfileData{
+  int64 UserID = 1;
+  optional string UserName = 2;
+  string UserMail = 3;
+  optional string UserSurname = 4;
+  optional string UserRole = 5;
+}
+
+message GetProfileByUserIDOut{
+  optional ProfileData profile = 1;
+  optional Errors Error = 2;
+  bool Success = 3;
+}
+
+message CreateProfileIn{
+  ProfileData Profile = 1;
+}
+
+message CreateProfileOut{
+  optional ProfileData Profile = 1;
+  optional Errors Error = 2;
+  bool Success = 3;
+}
+
+
+message GetAllProfilesIn{}
+
+message GetAllProfilesOut{
+  repeated ProfileData Profiles = 1;
+  bool Success = 2;
+  optional Errors Error = 3;
+}
+

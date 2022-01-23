@@ -35,7 +35,11 @@ func (h *handler) CreateProfile(ctx context.Context, in *profile.CreateProfileIn
 	}
 
 	createdProfile, err := h.profileDomain.CreateProfile(&entities.Profile{
-		UserID: in.Profile.UserID,
+		UserID:      in.Profile.UserID,
+		UserMail:    in.Profile.UserMail,
+		UserRole:    in.Profile.UserRole,
+		UserName:    in.Profile.UserName,
+		UserSurname: in.Profile.UserSurname,
 	})
 	if err != nil {
 		switch err {
@@ -118,6 +122,7 @@ func (h *handler) GetProfileByUserID(ctx context.Context, in *profile.GetProfile
 	}
 
 	return &profile.GetProfileByUserIDOut{
+		Success: true,
 		Profile: &profile.ProfileData{
 			UserID:      profileData.UserID,
 			UserMail:    profileData.UserMail,
