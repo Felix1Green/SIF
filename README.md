@@ -3,7 +3,7 @@
 ### Запуск бэкенда
 <pre>
     <code>
-  docker-compose -f ./backend/docker-compose.yml up -d
+  docker-compose -f ./backend/docker-compose.yml up -d --build
     </code>
 </pre>
 
