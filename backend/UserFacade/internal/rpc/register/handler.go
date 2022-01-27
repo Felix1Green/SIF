@@ -6,14 +6,12 @@ import (
 	"UserFacade/internal/models/handlerErrors"
 	"UserFacade/internal/models/handlersDto"
 	"UserFacade/internal/models/user"
-	"UserFacade/internal/rpc"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
-	"time"
 )
 
 type handler struct {
@@ -170,16 +168,6 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 		UserRole:    profileResponse.Profile.UserRole,
 		UserSurname: profileResponse.Profile.UserSurname,
 	}
-
-	cookie := &http.Cookie{
-		Name:    rpc.CookieName,
-		Value:   *response.UserToken,
-		SameSite: http.SameSiteNoneMode,
-		Expires: time.Now().AddDate(rpc.CookieExpiresYear, rpc.CookieExpiresMonth, rpc.CookieExpiresDay),
-		Path:    "/",
-		Secure:  true,
-	}
-	http.SetCookie(w, cookie)
 
 	rawOut, _ := json.Marshal(outDto)
 	_, _ = w.Write(rawOut)
