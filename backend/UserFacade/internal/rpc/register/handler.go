@@ -174,6 +174,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	cookie := &http.Cookie{
 		Name:    rpc.CookieName,
 		Value:   *response.UserToken,
+		SameSite: http.SameSiteNoneMode,
 		Expires: time.Now().AddDate(rpc.CookieExpiresYear, rpc.CookieExpiresMonth, rpc.CookieExpiresDay),
 		Path:    "/",
 		Secure:  true,
