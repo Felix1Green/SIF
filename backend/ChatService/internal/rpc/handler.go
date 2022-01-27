@@ -10,14 +10,14 @@ import (
 	"net/http"
 )
 
-type handler struct{
-	log *logrus.Logger
+type handler struct {
+	log               *logrus.Logger
 	authServiceClient auth.AuthClient
 }
 
-func NewHandler(logger *logrus.Logger, authClient auth.AuthClient) *handler{
+func NewHandler(logger *logrus.Logger, authClient auth.AuthClient) *handler {
 	return &handler{
-		log: logger,
+		log:               logger,
 		authServiceClient: authClient,
 	}
 }
@@ -28,16 +28,16 @@ var connUpgrade = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
+func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	//server := socketio.NewServer(nil)
 	_, err := h.getUserIDFromToken(r)
-	if err != nil{
-		var(
+	if err != nil {
+		var (
 			statusCode = 200
-			outErr handlerErrors.Error
+			outErr     handlerErrors.Error
 		)
 
-		switch err{
+		switch err {
 		case NoUserCredentialsProvided, IncorrectUserCredentials:
 			statusCode = http.StatusBadRequest
 		default:
@@ -46,7 +46,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
 
 		outErr = handlerErrors.Error{
 			ErrorMessage: err.Error(),
-			ErrorCode: statusCode,
+			ErrorCode:    statusCode,
 		}
 
 		rawErr, _ := json.Marshal(outErr)
@@ -64,7 +64,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request){
 	//chatSession.Start()
 }
 
-func (h *handler) getUserIDFromToken(r *http.Request) (int64, error){
+func (h *handler) getUserIDFromToken(r *http.Request) (int64, error) {
 	authToken := ""
 	if val, err := r.Cookie(CookieName); err == nil && val != nil {
 		authToken = val.Value
