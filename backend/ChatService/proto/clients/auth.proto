@@ -1,0 +1,53 @@
+syntax = "proto3";
+package AuthService;
+
+option go_package = "/auth";
+
+service Auth{
+  rpc Auth(AuthIn) returns (AuthOut);
+  rpc LogOut(LogoutIn) returns (LogoutOut);
+  rpc Register(RegisterIn) returns (RegisterOut);
+}
+
+enum Errors {
+  IncorrectUser = 0;
+  UserAlreadyRegistered = 1;
+  NotEnoughRightsToCreateUser = 2;
+  InternalServiceError = 3;
+  NoAuthDataProvided = 4;
+}
+
+message AuthIn{
+  optional string username = 1;
+  optional string password = 2;
+  optional string auth_token = 3;
+}
+
+message AuthOut{
+  optional int64 userId = 1;
+  optional string userToken = 2;
+  bool success = 3;
+  optional Errors error = 4;
+}
+
+message LogoutIn{
+  string authToken = 1;
+}
+
+message LogoutOut{
+  bool success = 1;
+  optional Errors error = 2;
+}
+
+message RegisterIn{
+  string userName = 1;
+  string password = 2;
+}
+
+message RegisterOut{
+  optional int64 userId = 1;
+  bool success = 2;
+  optional Errors error = 3;
+  optional string userToken = 4;
+}
+

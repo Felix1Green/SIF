@@ -1,10 +1,15 @@
 package user
 
 type User struct {
-	Username, Password, AuthToken *string
+	Username  *string
+	Password  *string
+	AuthToken *string
 }
 
 type RegisterUser struct {
-	Password, UserMail              string
-	UserName, UserSurname, UserRole *string
+	Password    string
+	UserMail    string
+	UserName    *string
+	UserSurname *string
+	UserRole    *string
 }

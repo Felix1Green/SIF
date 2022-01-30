@@ -4,17 +4,14 @@ import (
 	_ "UserFacade/docs"
 	"UserFacade/internal/clients/auth_service"
 	"UserFacade/internal/clients/profile_service"
+	"UserFacade/internal/middleware"
 	"UserFacade/internal/rpc/get_all_profiles"
 	"UserFacade/internal/rpc/login"
 	"UserFacade/internal/rpc/logout"
 	"UserFacade/internal/rpc/register"
+	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
-
-	//"UserFacade/internal/clients/auth_service"
-	//"UserFacade/internal/clients/profile_service"
-	"UserFacade/internal/middleware"
-
-	"github.com/swaggo/http-swagger"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
 )
 
@@ -44,14 +41,14 @@ func main() {
 	logoutHandler := logout.NewHandler(authServiceClient, logger)
 	registerHandler := register.NewHandler(authServiceClient, profileServiceClient, logger)
 	getAllProfilesHandler := get_all_profiles.NewHandler(profileServiceClient, logger)
-	handler := http.NewServeMux()
+	handler := mux.NewRouter()
 	handler.HandleFunc("/login", loginHandler.Handle)
 	handler.HandleFunc("/register", registerHandler.Handle)
 	handler.HandleFunc("/logout", logoutHandler.Handle)
 	handler.HandleFunc("/profiles", getAllProfilesHandler.Handle)
-	handler.HandleFunc("/docs", httpSwagger.Handler())
 
 	handlers := middleware.SetupMiddleware(handler)
+	handler.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	err = http.ListenAndServe(":8080", handlers)
 	if err != nil {
 		return
