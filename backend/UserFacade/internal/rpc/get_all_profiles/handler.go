@@ -21,12 +21,13 @@ func NewHandler(profileServiceClient profile.ProfileClient, logger *logrus.Logge
 	}
 }
 
-// GetAllProfiles godoc
+// Handle godoc
 // @Summary GetAllProfiles
 // @Description Get all profiles of the service
 // @ID get-all-profiles-id
 // @Success 200 {array} profile.ProfileData
 // @Failure 503 {object} handlerErrors.Error
+// @Router /profiles [get]
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:

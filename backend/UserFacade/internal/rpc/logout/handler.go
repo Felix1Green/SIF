@@ -37,12 +37,13 @@ func deleteSessionCookie(w http.ResponseWriter, name string) {
 	http.SetCookie(w, &cookie)
 }
 
-// Logout godoc
+// Handle godoc
 // @Summary log out
 // @Description log out user
 // @ID logout-id
 // @Success 200
 // @Failure 503 {object} handlerErrors.Error
+// @Router /logout [post]
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)

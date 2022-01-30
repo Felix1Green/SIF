@@ -41,7 +41,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// AuthCheck godoc
+// HandlerGetRequest AuthCheck godoc
 // @Summary AuthCheck
 // @Description Check if user is authenticated
 // @ID auth-check-id
@@ -49,6 +49,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 // @Failure 401 {object} handlerErrors.Error
 // @Failure 400 {object} handlerErrors.Error
 // @Failure 503
+// @Router /login [get]
 func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 	authToken := ""
 	if val, err := r.Cookie(rpc.CookieName); err == nil && val != nil {
@@ -136,7 +137,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(rawOutDto)
 }
 
-// Authenticate godoc
+// HandlePostRequest godoc
 // @Summary Authenticate
 // @Description authenticate user
 // @ID authenticate-id
@@ -145,6 +146,7 @@ func (h *handler) HandlerGetRequest(w http.ResponseWriter, r *http.Request) {
 // @Failure 503 {object} handlerErrors.Error
 // @Failure 400 {object} handlerErrors.Error
 // @Failure 401 {object} handlerErrors.Error
+// @Router /login [post]
 func (h *handler) HandlePostRequest(w http.ResponseWriter, r *http.Request) {
 	inputCredentials := user.User{}
 	body, _ := ioutil.ReadAll(r.Body)

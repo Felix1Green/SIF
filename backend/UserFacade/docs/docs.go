@@ -22,7 +22,160 @@ var doc = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {},
+    "paths": {
+        "/login": {
+            "get": {
+                "description": "Check if user is authenticated",
+                "summary": "AuthCheck",
+                "operationId": "auth-check-id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlersDto.AuthOutDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "503": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "description": "authenticate user",
+                "summary": "Authenticate",
+                "operationId": "authenticate-id",
+                "parameters": [
+                    {
+                        "description": "user credentials",
+                        "name": "User_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "description": "log out user",
+                "summary": "log out",
+                "operationId": "logout-id",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/profiles": {
+            "get": {
+                "description": "Get all profiles of the service",
+                "summary": "GetAllProfiles",
+                "operationId": "get-all-profiles-id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/profile.ProfileData"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Register user",
+                "summary": "Register",
+                "operationId": "register-id",
+                "parameters": [
+                    {
+                        "description": "user credentials",
+                        "name": "User_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.RegisterUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handlerErrors.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
     "definitions": {
         "handlerErrors.Error": {
             "type": "object",

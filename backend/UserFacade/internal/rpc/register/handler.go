@@ -28,7 +28,7 @@ func NewHandler(authServiceClient auth.AuthClient, profileServiceClient profile.
 	}
 }
 
-// Register godoc
+// Handle godoc
 // @Summary Register
 // @Description Register user
 // @ID register-id
@@ -37,6 +37,7 @@ func NewHandler(authServiceClient auth.AuthClient, profileServiceClient profile.
 // @Failure 503 {object} handlerErrors.Error
 // @Failure 400 {object} handlerErrors.Error
 // @Failure 403 {object} handlerErrors.Error
+// @Router /register [post]
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
