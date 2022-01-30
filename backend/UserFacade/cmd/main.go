@@ -41,7 +41,6 @@ func main() {
 	logoutHandler := logout.NewHandler(authServiceClient, logger)
 	registerHandler := register.NewHandler(authServiceClient, profileServiceClient, logger)
 	getAllProfilesHandler := get_all_profiles.NewHandler(profileServiceClient, logger)
-	//handler := http.NewServeMux()
 	handler := mux.NewRouter()
 	handler.HandleFunc("/login", loginHandler.Handle)
 	handler.HandleFunc("/register", registerHandler.Handle)

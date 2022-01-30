@@ -220,7 +220,16 @@
                 "password": {
                     "type": "string"
                 },
+                "userMail": {
+                    "type": "string"
+                },
                 "userName": {
+                    "type": "string"
+                },
+                "userRole": {
+                    "type": "string"
+                },
+                "userSurname": {
                     "type": "string"
                 }
             }
@@ -228,6 +237,12 @@
         "user.User": {
             "type": "object",
             "properties": {
+                "authToken": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
                 "username": {
                     "type": "string"
                 }

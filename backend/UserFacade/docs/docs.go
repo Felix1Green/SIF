@@ -234,7 +234,16 @@ var doc = `{
                 "password": {
                     "type": "string"
                 },
+                "userMail": {
+                    "type": "string"
+                },
                 "userName": {
+                    "type": "string"
+                },
+                "userRole": {
+                    "type": "string"
+                },
+                "userSurname": {
                     "type": "string"
                 }
             }
@@ -242,6 +251,12 @@ var doc = `{
         "user.User": {
             "type": "object",
             "properties": {
+                "authToken": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
                 "username": {
                     "type": "string"
                 }

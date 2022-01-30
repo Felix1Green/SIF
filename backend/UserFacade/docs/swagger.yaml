@@ -37,11 +37,21 @@ definitions:
     properties:
       password:
         type: string
+      userMail:
+        type: string
       userName:
+        type: string
+      userRole:
+        type: string
+      userSurname:
         type: string
     type: object
   user.User:
     properties:
+      authToken:
+        type: string
+      password:
+        type: string
       username:
         type: string
     type: object
