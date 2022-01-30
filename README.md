@@ -7,6 +7,12 @@
     </code>
 </pre>
 
+### Swagger находится по урлу:
+<pre>
+    <code>
+  http://localhost:8080/swagger/
+    </code>
+</pre>
 
 ## Фронтенд
 ### Запуск фронтенда
