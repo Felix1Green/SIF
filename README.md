@@ -7,7 +7,8 @@
     </code>
 </pre>
 
-### Swagger находится по урлу:
+### Swagger
+#### Для сервиса UserFacade находится по урлу:
 <pre>
     <code>
   http://localhost:8080/swagger/
