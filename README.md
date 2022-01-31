@@ -14,6 +14,12 @@
   http://localhost:8080/swagger/
     </code>
 </pre>
+#### Для сервиса ChatService находится по урлу:
+<pre>
+    <code>
+  http://localhost:8890/swagger/
+    </code>
+</pre>
 
 ## Фронтенд
 ### Запуск фронтенда
