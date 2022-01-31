@@ -3,7 +3,7 @@ package main
 import (
 	_ "ChatService/docs"
 	"ChatService/internal/clients/auth_service"
-	"ChatService/internal/rpc"
+	"ChatService/internal/rpc/chat"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	httpSwagger "github.com/swaggo/http-swagger"
@@ -28,7 +28,7 @@ func main() {
 	logger.Info("deps clients initializing finished with success")
 
 	// handlers
-	socketHandler := rpc.NewHandler(logger, authClient)
+	socketHandler := chat.NewHandler(logger, authClient)
 
 	// configure router
 	router := mux.NewRouter()

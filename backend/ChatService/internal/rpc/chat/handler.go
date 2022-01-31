@@ -1,8 +1,9 @@
-package rpc
+package chat
 
 import (
 	"ChatService/internal/entities/handlerErrors"
 	"ChatService/internal/generated/clients/auth"
+	"ChatService/internal/rpc"
 	"context"
 	"encoding/json"
 	"github.com/gorilla/websocket"
@@ -38,7 +39,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 		)
 
 		switch err {
-		case NoUserCredentialsProvided, IncorrectUserCredentials:
+		case rpc.NoUserCredentialsProvided, rpc.IncorrectUserCredentials:
 			statusCode = http.StatusBadRequest
 		default:
 			statusCode = http.StatusServiceUnavailable
@@ -66,11 +67,11 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) getUserIDFromToken(r *http.Request) (int64, error) {
 	authToken := ""
-	if val, err := r.Cookie(CookieName); err == nil && val != nil {
+	if val, err := r.Cookie(rpc.CookieName); err == nil && val != nil {
 		authToken = val.Value
 	} else {
 		h.log.Error("no auth token found")
-		return 0, NoUserCredentialsProvided
+		return 0, rpc.NoUserCredentialsProvided
 	}
 
 	authDto := &auth.AuthIn{
@@ -79,15 +80,15 @@ func (h *handler) getUserIDFromToken(r *http.Request) (int64, error) {
 
 	result, err := h.authServiceClient.Auth(context.Background(), authDto)
 	if err != nil {
-		return 0, NoUserCredentialsProvided
+		return 0, rpc.NoUserCredentialsProvided
 	}
 
 	if result.Error != nil || !result.Success {
 		switch *result.Error {
 		case auth.Errors_IncorrectUser:
-			return 0, IncorrectUserCredentials
+			return 0, rpc.IncorrectUserCredentials
 		default:
-			return 0, InternalServiceError
+			return 0, rpc.InternalServiceError
 		}
 	}
 
