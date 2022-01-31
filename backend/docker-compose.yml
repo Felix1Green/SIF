@@ -43,3 +43,12 @@ services:
     depends_on:
       - profile
       - auth
+  chat_service:
+    build:
+      context: ChatService
+      dockerfile: Dockerfile
+    ports:
+      - "8890:8890"
+    restart: always
+    depends_on:
+      - auth

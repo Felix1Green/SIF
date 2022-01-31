@@ -1,0 +1,9 @@
+basePath: /
+host: https://localhost:8890
+info:
+  contact: {}
+  description: This is a chat API
+  title: SIF Backend Chat API
+  version: "0.5"
+paths: {}
+swagger: "2.0"
