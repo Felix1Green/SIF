@@ -1,0 +1,12 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a chat API",
+        "title": "SIF Backend Chat API",
+        "contact": {},
+        "version": "0.5"
+    },
+    "host": "https://localhost:8890",
+    "basePath": "/",
+    "paths": {}
+}
