@@ -1,7 +1,7 @@
 package chat
 
 import (
-	"ChatService/internal/entities/handlerErrors"
+	"ChatService/internal/entities/handler_errors"
 	"ChatService/internal/generated/clients/auth"
 	"ChatService/internal/rpc"
 	"context"
@@ -30,12 +30,11 @@ var connUpgrade = websocket.Upgrader{
 }
 
 func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
-	//server := socketio.NewServer(nil)
 	_, err := h.getUserIDFromToken(r)
 	if err != nil {
 		var (
 			statusCode = 200
-			outErr     handlerErrors.Error
+			outErr     handler_errors.Error
 		)
 
 		switch err {
@@ -45,7 +44,7 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 			statusCode = http.StatusServiceUnavailable
 		}
 
-		outErr = handlerErrors.Error{
+		outErr = handler_errors.Error{
 			ErrorMessage: err.Error(),
 			ErrorCode:    statusCode,
 		}
@@ -57,12 +56,19 @@ func (h *handler) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = connUpgrade.Upgrade(w, r, nil)
-	//if err != nil{
-	//	h.log.Errorf("err with upgrading connection: %s", err.Error())
-	//}
+	if err != nil {
+		h.log.Errorf("err with upgrading connection: %s", err.Error())
+		outErr := handler_errors.Error{
+			ErrorCode:    http.StatusServiceUnavailable,
+			ErrorMessage: "connection could not be established",
+		}
+		rawErr, _ := json.Marshal(outErr)
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, _ = w.Write(rawErr)
+		return
+	}
 
-	//chatSession := chat_session.NewSession(userID, peer)
-	//chatSession.Start()
+	// send connection peer to interactor
 }
 
 func (h *handler) getUserIDFromToken(r *http.Request) (int64, error) {

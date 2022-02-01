@@ -1,4 +1,4 @@
-package handlerErrors
+package handler_errors
 
 type Error struct {
 	ErrorCode    int
