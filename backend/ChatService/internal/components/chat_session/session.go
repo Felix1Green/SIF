@@ -18,7 +18,7 @@ func NewChatSession(
 	userID int64,
 	peer *websocket.Conn,
 	log *logrus.Logger,
-	messageHistory []message.Message,
+	messageHistory map[int64]message.Message,
 	callback internal.EventCallback,
 ) *ChatSession {
 	return &ChatSession{
