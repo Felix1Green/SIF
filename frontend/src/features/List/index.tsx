@@ -1,42 +1,43 @@
 import * as React from 'react';
-import { ProfileUsersListProps } from './ProfileUsersList.typings';
+import { ListProps } from './List.typings';
 import { ContentCard } from '@components/ContentCard';
 import { Link } from 'react-router-dom';
 import { ClientRoutes } from '@consts/routes';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
-import { UsersList } from '@components/UsersListItem';
+import { UsersListItem } from '@components/UsersListItem';
 import { Spin } from '@yandex/ui/Spin/desktop/bundle';
 import {
-    profileUsersListAppendCn,
-    profileUsersListCn,
-    profileUsersListContainerCn, profileUsersListLoadingCn
-} from '@features/ProfileUsersList/ProfileUsersList.consts';
+    listAppendCn,
+    listCn,
+    listContainerCn, listLoadingCn
+} from '@features/List/List.consts';
 
 import './index.scss';
 import { Info } from '@components/Info';
 
-export const ProfileUsersList: React.FC<ProfileUsersListProps> = props => {
+export const List: React.FC<ListProps> = props => {
     const {
         usersList,
+        title,
     } = props;
 
     return (
-        <ContentCard className={profileUsersListCn} title="Пользователи">
+        <ContentCard className={listCn} title={title}>
             {
-                (usersList === null) ?
-                    <Spin className={profileUsersListLoadingCn} progress view="default" size="l" />
+                (usersList === undefined) ?
+                    <Spin className={listLoadingCn} progress view="default" size="l" />
                     :
-                    (usersList.length !== 0) ?
-                        <div className={profileUsersListContainerCn}>
+                    (usersList && usersList.length !== 0) ?
+                        <div className={listContainerCn}>
                             {usersList.map((value, index) =>
-                                <UsersList key={index} name={value.name} surname={value.surname} />)}
+                                <UsersListItem key={index} name={value.UserMail} surname={value.surname} />)}
                         </div>
                         :
                         <Info show={true} type={'info'}>
                             Нет зарегистрированных пользователей
                         </Info>
             }
-            <Link className={profileUsersListAppendCn} to={ClientRoutes.registerPage}>
+            <Link className={listAppendCn} to={ClientRoutes.registerPage}>
                 <Button view="action" size="m">Добавить</Button>
             </Link>
         </ContentCard>

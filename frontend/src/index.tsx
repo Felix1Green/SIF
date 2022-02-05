@@ -19,7 +19,7 @@ export type AppState = {
 export type AppProps = Record<string, never>;
 
 export const UserContext = React.createContext<AppState>({
-    user: null,
+    user: undefined,
     setUser: () => {},
 });
 
@@ -40,14 +40,14 @@ class App extends React.Component<AppProps, AppState> {
         };
 
         this.state = {
-            user: null,
+            user: undefined,
             setUser: this.setUser,
         };
     }
 
     render() {
         if (this.state.user === undefined) {
-            this.userModel.isAuthorized().then(result => {
+            this.userModel.getUserProfile().then(result => {
                 this.setUser(result);
             });
 

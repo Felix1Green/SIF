@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const BUILD_DIR = path.resolve(__dirname, 'build');
 
@@ -10,7 +11,7 @@ module.exports = {
     },
     output: {
         path: BUILD_DIR,
-        filename: '[name].js'
+        filename: '[name].js',
     },
     module: {
         rules: [
@@ -24,14 +25,17 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
-                test: /\.svg$/,
-                loader: 'svg-inline-loader'
-            },
+                test: /\.(png|svg|jpg|gif)$/,
+                loader: 'file-loader',
+                exclude: '/node_modules/',
+                options: { outputPath: '/img' }
+            }
         ],
     },
     resolve: {
         alias: {
             "@components": path.resolve(__dirname, 'src/components/'),
+            "@src": path.resolve(__dirname, 'src/'),
             "@features": path.resolve(__dirname, 'src/features/'),
             "@models": path.resolve(__dirname, 'src/models/'),
             "@helpers": path.resolve(__dirname, 'src/helpers/'),
@@ -44,6 +48,11 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html')
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: './public/img', to: './img'}
+            ]
         })
     ],
     devServer: {
