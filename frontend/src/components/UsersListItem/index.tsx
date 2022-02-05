@@ -4,7 +4,7 @@ import { usersListItemCn } from './UsersListItem.consts';
 
 import './index.scss';
 
-export const UsersList: React.FC<UsersListItemProps> = props => {
+export const UsersListItem: React.FC<UsersListItemProps> = props => {
     const {
         name,
         surname,

@@ -12,9 +12,10 @@ import ProfileView from '@views/ProfileView';
 import { BaseViewPropsType } from './BaseView.typings';
 
 import { ClientRoutes } from '@consts/routes';
-import { UserContext } from '../../index';
+import { UserContext } from '@src/index';
 
 import './index.scss';
+import ConversationView from '@views/ConversationView';
 
 export const BaseView: React.FC<BaseViewPropsType> = () => {
     return (
@@ -29,6 +30,11 @@ export const BaseView: React.FC<BaseViewPropsType> = () => {
                                 <LoginView
                                     user={user}
                                     setUser={setUser}
+                                />
+                            }/>
+                            <Route path={ClientRoutes.conversationPage} element={
+                                <ConversationView
+                                    user={user}
                                 />
                             }/>
                             <Route path={ClientRoutes.registerPage} element={

@@ -11,7 +11,7 @@ import { Navigate } from 'react-router-dom';
 
 import { ClientRoutes } from '@consts/routes';
 import { ProfileInfo } from '@features/ProfileInfo';
-import { ProfileUsersList } from '@features/ProfileUsersList';
+import { List } from '@features/List';
 
 import './index.scss';
 
@@ -25,12 +25,17 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
 
         this.state = {
             isLogout: false,
-            usersList: null,
+            usersList: undefined,
         };
     }
 
     async componentDidMount() {
-        const usersList = await this.userModel.getProfileUsersList();
+        let usersList = await this.userModel.getProfileUsersList();
+        if (usersList) {
+            usersList = usersList.filter(value => {
+                return value.UserMail !== this.props.user?.UserMail;
+            });
+        }
         this.setState({ usersList });
     }
 
@@ -57,8 +62,8 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
         const {
             name,
             surname,
-            login,
             role,
+            UserMail,
         } = this.props.user;
 
         return (
@@ -67,14 +72,16 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
                     <ProfileInfo
                         name={name}
                         surname={surname}
-                        login={login}
+                        login={UserMail}
                         role={role}
                         onLogout={this.onLogout}
                     />
                 </div>
                 <div className={rightColumnCn}>
-                    <ProfileUsersList
+                    <List
                         usersList={usersList}
+                        type="users"
+                        title="Пользователь"
                     />
                 </div>
             </div>

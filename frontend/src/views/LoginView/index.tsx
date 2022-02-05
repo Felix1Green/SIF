@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent } from 'react';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
 import UserModel from '@models/UserModel';
 import Validator from '@helpers/validator';
-import { ContentCard } from '@components/ContentCard';
+import { ContentCard } from '@src/components/ContentCard';
 import { Textinput } from '@components/Textinput';
 import { Info } from '@components/Info';
 import { LoginViewProps, LoginViewState } from './LoginView.typings';
@@ -40,33 +40,36 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
         this.setState({ password: event.target.value });
     };
 
+    onErrorForm = () => {
+        this.setState({
+            progress: false,
+            showAlert: true,
+            password: '',
+        });
+    };
+
+    onLoadForm = () => {
+        this.setState({
+            progress: true,
+            showAlert: false,
+        });
+    };
+
     onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        this.onLoadForm();
 
         const {
             login,
             password,
         } = this.state;
 
-        this.setState({
-            progress: true,
-            showAlert: false,
-        });
-
-        // TODO: Замедление срабатывания метода для демонстрации загрузки
-        // await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 1000));
-
         if (!this.validator.validatePassword(password)) {
-            this.setState({
-                progress: false,
-                showAlert: true,
-                password: '',
-            });
+            this.onErrorForm();
             return;
         }
 
-        const response = await this.userModel.login(login, password);
-        if (response.ok) {
+        if (await this.userModel.login(login, password)) {
             this.props.setUser && this.props.setUser( await this.userModel.getUserProfile() );
         } else {
             this.setState({
@@ -78,16 +81,16 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
     };
 
     render() {
+        if (this.props.user) {
+            return <Navigate to={ClientRoutes.profilePage} replace={true} />;
+        }
+
         const {
             login,
             password,
             showAlert,
             progress,
         } = this.state;
-
-        if (this.props.user) {
-            return <Navigate to={ClientRoutes.profilePage} replace={true} />;
-        }
 
         return (
             <ContentCard className={loginCn}>

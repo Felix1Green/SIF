@@ -1,4 +1,4 @@
-class Validator {
+export default class Validator {
     validateLogin(login?: string): boolean {
         if (!login) {
             return false;
@@ -23,5 +23,3 @@ class Validator {
         return nameRegExp.test(name);
     }
 }
-
-export default Validator;

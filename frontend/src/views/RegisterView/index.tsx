@@ -5,7 +5,7 @@ import UserModel from '@models/UserModel';
 import { ChangeEvent, FormEvent } from 'react';
 import { ClientRoutes } from '@consts/routes';
 import { Navigate } from 'react-router-dom';
-import { ContentCard } from '@components/ContentCard';
+import { ContentCard } from '@src/components/ContentCard';
 import { registrationCn, registrationSubmitCn } from './RegisterView.consts';
 import { Info } from '@components/Info';
 import { Textinput } from '@components/Textinput';
@@ -82,8 +82,7 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
             return;
         }
 
-        const response = await this.userModel.register(name, surname, login, password);
-        if (response.ok) {
+        if (await this.userModel.register(name, surname, login, password)) {
             this.setState({ isSuccess: true });
         } else {
             this.setState({
