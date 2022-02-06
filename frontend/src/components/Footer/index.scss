@@ -1,18 +1,39 @@
 @import 'src/components/Constants/Constants';
 
 .Footer {
-    padding: var(--space-s);
-
     font-size: var(--typography-label-font-size);
 
-    &-Container {
+    background-color: var(--color-bg-footer);
+
+    &-Contacts {
         display: flex;
-        flex-direction: row;
-        flex-shrink: 0;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    &-Contact {
+        padding: var(--space-m);
+    }
+
+    &-Copyright {
+        display: flex;
         justify-content: center;
         align-items: center;
 
-        max-width: var(--page-main-max-width);
         margin: 0 auto;
+        padding-top: var(--space-m);
+        padding-bottom: var(--space-m);
+
+        border-top: 3px solid var(--color-base);
+    }
+
+    &-Social {
+        padding: var(--space-m);
+    }
+
+    &-Icon {
+        width: 24px;
+        height: 24px;
+        margin-right: var(--space-xs);
     }
 }
