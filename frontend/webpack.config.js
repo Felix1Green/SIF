@@ -29,7 +29,13 @@ module.exports = {
                 loader: 'file-loader',
                 exclude: '/node_modules/',
                 options: { outputPath: '/img' }
-            }
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                loader: 'file-loader',
+                exclude: '/node_modules/',
+                options: { outputPath: '/fonts' }
+            },
         ],
     },
     resolve: {
@@ -51,7 +57,9 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: './public/img', to: './img'}
+                { from: './public/img', to: './img'},
+                { from: './public/icons', to: './icons'},
+                { from: './public/fonts', to: './fonts'}
             ]
         })
     ],

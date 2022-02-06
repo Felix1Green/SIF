@@ -6,6 +6,7 @@ export type UserType = {
     surname: string;
     login: string;
     role: RoleType;
+    avatar?: string;
     UserMail: string;
 };
 export type UserWrapper = UserType | null | undefined;

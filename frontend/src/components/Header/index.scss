@@ -1,35 +1,53 @@
 @import 'src/components/Constants/Constants';
 
 .Header {
-    margin-bottom: var(--space-s);
-    padding: var(--space-s);
+    display: flex;
+    align-items: center;
 
-    color: var(--color-typo-primary-white);
-    background-color: var(--color-bg-brand);
-    box-shadow: var(--shadow-lightblue-30);
+    height: calc(70px - (2 * var(--space-m)));
+    margin-bottom: var(--space-m);
+    padding: var(--space-m);
 
-    &-Container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+    font-size: var(--typography-subtitle-font-size);
 
-        max-width: var(--page-main-max-width);
-        margin: 0 auto;
-    }
+    border-bottom: 3px solid var(--color-bg-brand);
 
     &-Title {
+        margin-right: var(--space-m);
+
         font-size: var(--typography-title-font-size);
         font-weight: var(--typography-font-weight-bold);
     }
 
-    &-Link {
-        text-decoration: none;
+    &-Navigation {
+        margin: 0 var(--space-m);
 
-        color: inherit;
+        &__Link {
+            display: inline;
+
+            margin-right: var(--space-l);
+        }
     }
 
-    &-Messanger {
-        margin-left: var(--space-s);
+    &-UserIcons {
+        width: 50px;
+        height: 50px;
+        margin-right: var(--space-m);
+    }
+
+    &-BurgerMenu {
+        width: 27px;
+        height: 21px;
+        margin-right: var(--space-m);
+    }
+
+    &-UserContainer {
+        margin-left: auto;
+    }
+
+    &-Auth {
+        margin-right: var(--space-m);
+
+        font-weight: bold;
     }
 }

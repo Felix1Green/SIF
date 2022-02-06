@@ -1,3 +1,21 @@
+@font-face {
+    font-family: Rubik;
+    src: url('../public/fonts/Rubik-Regular.ttf'), url('../public/fonts/Rubik-Bold.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Rubik;
+    src: local('Rubik'), url('../public/fonts/Rubik-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Rubik;
+    src: local('Rubik'), url('../public/fonts/Rubik-Medium.ttf');
+    font-weight: 500;
+}
+
 body {
     box-sizing: border-box;
     margin: 0;
@@ -6,7 +24,6 @@ body {
     font-family: var(--typography-font-family);
 
     color: var(--button-view-default-typo-color-base);
-    background-color: var(--button-view-default-fill-color-base);
 }
 
 .App {
@@ -20,7 +37,13 @@ body {
         --page-login-max-width: var(--page-login-touch-max-width);
     }
 
-    & > .Spin2 {
+    > .Spin2 {
         margin: auto;
     }
+}
+
+a {
+    text-decoration: none;
+
+    color: inherit;
 }
