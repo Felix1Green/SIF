@@ -59,6 +59,7 @@ typography:
     font:
       size:
         value: 24px
+
   label:
     font:
       size:

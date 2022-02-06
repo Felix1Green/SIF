@@ -1,38 +1,50 @@
 import * as React from 'react';
-import { compose } from '@bem-react/core';
-import {
-    Button as ButtonDesktop,
-    withSizeM,
-    withViewDefault,
-} from '@yandex/ui/Button/desktop';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { HeaderPropsType } from './Header.typings';
-import { cnHeader, headerCn, headerContainerCn } from './Header.consts';
+import {
+    cnHeader,
+    headerCn,
+    headerBurgerMenuCn,
+    headerNavigationCn,
+    headerNavigationLinkCn, headerUserIconsCn, headerUserContainerCn, headerAuthCn
+} from './Header.consts';
 import { ClientRoutes } from '@consts/routes';
+import { Icon } from '@yandex/ui/Icon/bundle';
+
 import './index.scss';
 
-const Button = compose(withSizeM, withViewDefault)(ButtonDesktop);
+const serviceTitle = 'Стартапы будущего';
 
+const navigationTabs = [
+    { name: 'Проекты', url: '/' },
+    { name: 'Исследователи', url: '/' },
+    { name: 'Тьюторы', url: '/' },
+    { name: 'Вакансии', url: '/' },
+];
 export const Header: React.FC<HeaderPropsType> = (props) => {
+    const burgerMenu = <Icon className={headerBurgerMenuCn} url={'/icons/burger-menu.svg'}/>;
+    const messageIcon = <Icon className={headerUserIconsCn} url={'/icons/envelope.svg'} />;
+    const userAvatar = <Icon className={headerUserIconsCn} url={props.user?.avatar ?? '/img/avatar-svgrepo-com.svg'} />;
+
     return (
         <div className={headerCn}>
-            <div className={headerContainerCn}>
-                <Link to="/" className={cnHeader('Link')}>
-                    <div className={cnHeader('Title')}>Шаг в будущее</div>
-                </Link>
-                { (!props.user) ? (
-                    <Link to="/login" className={cnHeader('Link')}>
-                        <Button view="default" size="m">Войти</Button>
-                    </Link>
+            {burgerMenu}
+            <Link to="/">
+                <div className={cnHeader('Title')}>{serviceTitle}</div>
+            </Link>
+            <div className={headerNavigationCn}>
+                {navigationTabs.map(value => {
+                    return <NavLink to={value.url}><div className={headerNavigationLinkCn}>{value.name}</div></NavLink>;
+                })}
+            </div>
+            <div className={headerUserContainerCn}>
+                {(!props.user) ? (
+                    <Link to="/login" className={headerAuthCn}>Войти</Link>
                 ) : (
-                    <div>
-                        <Link to={ClientRoutes.profilePage} className={cnHeader('Link')}>
-                            <Button view="default" size="m">Профиль</Button>
-                        </Link>
-                        <Link to={ClientRoutes.conversationPage} className={cnHeader('Link')}>
-                            <Button view="default" size="m" className={cnHeader('Messanger')}>Сообщения</Button>
-                        </Link>
-                    </div>
+                    <>
+                        <Link to={ClientRoutes.conversationPage}> {messageIcon} </Link>
+                        <Link to={ClientRoutes.profilePage}> {userAvatar} </Link>
+                    </>
                 )}
             </div>
         </div>

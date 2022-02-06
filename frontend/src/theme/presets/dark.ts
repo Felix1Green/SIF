@@ -1,7 +1,7 @@
 import type { Theme } from '@yandex/ui/Theme';
 
 import './dark/color.scss';
-import './dark/root.scss';
+import './light/root.scss';
 
 export const theme: Theme = {
     color: 'dark',

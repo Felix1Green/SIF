@@ -16,13 +16,13 @@
     --typography-font-weight-regular: 400;
     --typography-font-weight-medium: 500;
     --typography-font-weight-bold: 700;
-    --control-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --control-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --typography-controls-size-s-font-size: 13px;
     --typography-controls-size-m-font-size: 15px;
     --typography-controls-size-l-font-size: 18px;
-    --typography-title-font-size: 24px;
+    --typography-title-font-size: 22px;
     --typography-label-font-size: 15px;
-    --attach-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --attach-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --attach-reset-width: 12px;
     --attach-reset-height: 12px;
     --attach-reset-indentLeft: 5px;
@@ -36,13 +36,13 @@
     --attach-size-l-fontSize: 18px;
     --attach-size-l-lineHeight: 42px;
     --attach-size-l-holder-indentLeft: 10px;
-    --badge-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --badge-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --badge-size-small: 10px;
     --badge-size-large: 16px;
     --badge-font-size: 12px;
     --badge-border-radius: 8px;
     --badge-border-width: 2px;
-    --button-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --button-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --button-border-width: 1px;
     --button-borderRadius: 16px; /* Радиус внутреннего блока */
     --button-size-s-font: 13px; /* Размер текста у s-button */
@@ -73,7 +73,7 @@
     --button-group-pin-circle-border-radius: 100px; /* Радиус у кнопок с формой circle */
     --button-group-pin-round-border-radius: 16px; /* Радиус у кнопок с формой round */
     --checkbox-view-outline-disabled-opacity: 0.4;
-    --checkbox-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --checkbox-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --checkbox-borderRadius: 4px;
     --checkbox-size-s-fontSize: 13px; /* Размер текста у s-checkbox */
     --checkbox-size-s-indentLeft: 5px; /* Размер внешнего левого отступа у s-checkbox (от текста) */
@@ -134,7 +134,7 @@
     --header-search-textinput-control-font-size: 18px; /* Размер шрифта Textinput_view_search-arrow Textinput-Control */
     --header-search-textinput-control-border-width: 0 30px 0 13px; /* Ширина границы Textinput_view_search-arrow Textinput-Control */
     --header-search-textinput-box-border-width: 2px 0 2px 2px; /* Ширина границы Textinput_view_search-arrow Texinput-Box */
-    --menu-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --menu-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --menu-group-borderWidth: 1px; /* Бордер у menu-group меню */
     --menu-size-s-fontSize: 13px; /* Размер текста у s-menu */
     --menu-size-s-lineHeight: 32px; /* Межстрочный интервал s-menu у s-menu */
@@ -159,7 +159,7 @@
     --menu-size-m-item-icon-indentRight: 6px;
     --menu-size-m-titleSibling-indentLeft: 20px; /* Размер внешнего левого отступа у сущностей после тайтла у m-menu */
     --message-box-fontSize: 13px;
-    --message-box-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --message-box-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --message-box-lineHeight: 16px;
     --message-box-hint-borderRadius: 4px;
     --message-box-close-lineHeight: 16px;
@@ -206,7 +206,7 @@
     --popup-borderRadius: 4px;
     --progressbar-height: 2px; /* Высота у progressbar */
     --progress-border-radius: 0;
-    --radio-button-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --radio-button-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --radioButton-indent: 3px;
     --radioButton-borderRadius: 4px;
     --radioButton-after-borderRadius: 2px;
@@ -219,7 +219,7 @@
     --radioButton-size-l-fontSize: 18px;
     --radioButton-size-l-lineHeight: 38px;
     --radioButton-size-l-space: 0 18px;
-    --radiobox-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --radiobox-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --radiobox-view-outline-disabled-opacity: 0.4;
     --radiobox-borderRadius: 50%; /* Скругление внешних краев у radioBox */
     --radiobox-after-borderRadius: 50%; /* Скругление внутренних краев у radioBox */
@@ -236,7 +236,7 @@
     --radiobox-size-m-indentRight: 6px; /* Размер внешнего правого отступа у m-radio (от текста)  */
     --radiobox-size-m-after-size: 7px;
     --radiobox-disabled-opacity: 0.6;
-    --slider-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Шрифт слайдера */
+    --slider-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Шрифт слайдера */
     --slider-view-default-height: 32px; /* Высота слайдера, без учета подписей */
     --slider-view-default-track-border-radius: 2px; /* Внешний радиус скругления трека */
     --slider-view-default-track-height: 2px; /* Высота трека */
@@ -252,7 +252,7 @@
     --spin-size-s: 28px;
     --spin-size-m: 32px;
     --spin-size-l: 38px;
-    --tabs-menu-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --tabs-menu-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --tabsMenu-size-s-font: 13px;
     --tabsMenu-size-s-lineHeight: 28px;
     --tabsMenu-size-m-font: 15px;
@@ -393,7 +393,7 @@
     --text-control-size-xxs-line-height: 1rem;
     --text-control-size-xxs-letter-spacing: 0.0065em;
     --text-control-size-xxs-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --textarea-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --textarea-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --textarea-borderWidth: 2px;
     --textarea-borderRadius: 4px; /* Ширина бордера у textarea */
     --textarea-size-s-fontSize: 13px; /* Размер текста у s-textarea */
@@ -410,7 +410,7 @@
     --textarea-size-m-clear-width: 36px; /* Ширина очищающего контрола у m-textarea */
     --textarea-size-m-clear-height: 36px; /* Высота очищающего контрола у m-textarea */
     --textarea-hint-size-m-fontSize: 13px;
-    --textinput-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --textinput-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --textinput-borderWidth: 2px;
     --textinput-borderRadius: 16px;
     --textinput-size-s-fontSize: 13px; /* Размер текста у s-textinput */
@@ -439,7 +439,7 @@
     --textinput-view-material-icon-width: 24px;
     --textinput-view-material-icon-height: 24px;
     --textinput-view-material-hint-font-size: 0.75rem;
-    --tooltip-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --tooltip-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --tooltip-borderRadius: 4px;
     --tooltip-size-s-fontSize: 13px; /* Размер текста у s-tooltip */
     --tooltip-size-s-lineHeight: 12px; /* Межстрочный интервал текста у s-tooltip */
@@ -454,7 +454,7 @@
     --tooltip-size-l-content-spaceAll: 18px; /* Размер внутренних отступов у контента l-tooltip */
     --tooltip-size-l-tail-size: 36px; /* Размер хвоста l-tooltip */
     --tooltip-view-default-shadow: 0 10px 20px -5px rgba(0, 0, 0, .4);
-    --tumbler-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --tumbler-font-family: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --tumbler-button-space: 2px;
     --tumbler-button-opacity-disabled: 1;
     --tumbler-size-s-fontSize: 13px; /* Размер текста s-tumbler */
@@ -571,4 +571,5 @@
     --page-login-touch-max-width: 45vw;
     --page-login-max-width: 30vw;
     --profile-item-height: 30px;
+    --typography-subtitle-font-size: 18px;
 }
