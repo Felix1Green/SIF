@@ -5,10 +5,10 @@ import {
     footerContactsCn,
     footerCopyrightCn, footerIconCn,
     footerSocialCn,
-} from './Footer.consts';
+} from './Footer.const';
 
 import './index.scss';
-import { headerBurgerMenuCn } from '@components/Header/Header.consts';
+import { headerBurgerMenuCn } from '@components/Header/Header.const';
 import { Icon } from '@yandex/ui/Icon/bundle';
 
 const contacts = [
@@ -26,12 +26,12 @@ export const Footer: React.FC<FooterPropsType> = () => {
     return (
         <div className={footerCn}>
             <div className={footerContactsCn}>
-                {contacts.map(value => {
-                    return <a target="_blank" className={footerContactCn} href={value.url}>{value.name}</a>;
+                {contacts.map((value, i) => {
+                    return <a key={i} target="_blank" className={footerContactCn} href={value.url}>{value.name}</a>;
                 })}
                 <div className={footerSocialCn}>
-                    {social.map(value => {
-                        return <a target="_blank" href={value.url}><Icon className={footerIconCn} url={value.iconUrl}/></a>;
+                    {social.map((value, i) => {
+                        return <a key={i} target="_blank" href={value.url}><Icon className={footerIconCn} url={value.iconUrl}/></a>;
                     })}
                 </div>
             </div>

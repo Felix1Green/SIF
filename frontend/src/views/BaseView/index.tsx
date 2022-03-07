@@ -1,21 +1,18 @@
 import * as React from 'react';
-import {
-    Routes,
-    Route
-} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Header } from '@components/Header';
 import { Footer } from '@components/Footer';
 import LoginView from '@views/LoginView';
-import RegisterView from '@views/RegisterView';
-import NotFoundView from '@views/NotFoundView';
 import ProfileView from '@views/ProfileView';
+import NotFoundView from '@views/NotFoundView';
+import RegisterView from '@views/RegisterView';
+import ConversationView from '@views/ConversationView';
 import { BaseViewPropsType } from './BaseView.typings';
 
 import { ClientRoutes } from '@consts/routes';
 import { UserContext } from '@src/index';
 
 import './index.scss';
-import ConversationView from '@views/ConversationView';
 
 export const BaseView: React.FC<BaseViewPropsType> = () => {
     return (

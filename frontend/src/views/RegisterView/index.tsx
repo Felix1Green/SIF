@@ -6,8 +6,8 @@ import { ChangeEvent, FormEvent } from 'react';
 import { ClientRoutes } from '@consts/routes';
 import { Navigate } from 'react-router-dom';
 import { ContentCard } from '@src/components/ContentCard';
-import { registrationCn, registrationSubmitCn } from './RegisterView.consts';
-import { Info } from '@components/Info';
+import { registrationCn, registrationSubmitCn, registrationFormCn } from './RegisterView.const';
+import { Disclaimer } from '@components/Disclaimer';
 import { Textinput } from '@components/Textinput';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
 
@@ -111,14 +111,14 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
         } = this.state;
 
         return (
-            <ContentCard className={registrationCn}>
-                <Info
+            <ContentCard className={registrationCn} title="Регистрация">
+                <Disclaimer
                     show={showAlert}
                     type="alert"
                 >
                     Неверный формат ввода одного из полей
-                </Info>
-                <form onSubmit={this.onSubmit}>
+                </Disclaimer>
+                <form className={registrationFormCn} onSubmit={this.onSubmit}>
                     <Textinput
                         onChange={this.onChangeName}
                         value={name}

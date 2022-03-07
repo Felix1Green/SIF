@@ -1,6 +1,8 @@
 @import 'src/components/Constants/Constants';
 
 .Footer {
+    width: 100%;
+
     font-size: var(--typography-label-font-size);
 
     background-color: var(--color-bg-footer);

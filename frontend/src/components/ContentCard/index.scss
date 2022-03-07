@@ -1,16 +1,38 @@
 .ContentCard {
+    margin-bottom: var(--space-s);
     padding: var(--space-3-xl);
 
-    border-radius: var(--card-border-radius);
-    background-color: var(--color-essential);
-    box-shadow: var(--card-box-shadow);
+    border: 1px solid var(--color-stroke);
+
+    &-Header {
+        display: flex;
+
+        margin-bottom: 27px;
+
+        &_collapsing {
+            margin-bottom: 0;
+
+            cursor: pointer;
+        }
+    }
 
     &-Title {
-        padding-bottom: var(--space-s);
+        flex-grow: 1;
+        align-self: center;
+    }
 
-        font-size: var(--typography-title-font-size);
-        font-weight: var(--typography-font-weight-medium);
+    &-Icon {
+        width: 38px;
+        height: 38px;
+        margin-right: var(--space-s);
 
-        border-bottom: var(--button-border-width) solid var(--color-control-bg-border-blank);
+        background-size: 38px;
+    }
+
+    &-Collapse {
+        width: 38px;
+        height: 38px;
+
+        background-size: 38px;
     }
 }

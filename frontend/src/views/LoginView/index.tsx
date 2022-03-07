@@ -5,9 +5,9 @@ import UserModel from '@models/UserModel';
 import Validator from '@helpers/validator';
 import { ContentCard } from '@src/components/ContentCard';
 import { Textinput } from '@components/Textinput';
-import { Info } from '@components/Info';
+import { Disclaimer } from '@components/Disclaimer';
 import { LoginViewProps, LoginViewState } from './LoginView.typings';
-import { loginCn, submitCn } from './LoginView.consts';
+import { loginCn, loginSubmitCn, loginFormCn } from './LoginView.const';
 
 import './index.scss';
 import { Navigate } from 'react-router-dom';
@@ -93,14 +93,14 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
         } = this.state;
 
         return (
-            <ContentCard className={loginCn}>
-                <Info
+            <ContentCard className={loginCn} title="Авторизация">
+                <Disclaimer
                     show={showAlert}
                     type="alert"
                 >
                     Неверный логин и/или пароль
-                </Info>
-                <form onSubmit={this.onSubmit}>
+                </Disclaimer>
+                <form className={loginFormCn} onSubmit={this.onSubmit}>
                     <Textinput
                         onChange={this.onChangeLogin}
                         value={login}
@@ -113,7 +113,7 @@ export default class LoginView extends React.Component<LoginViewProps, LoginView
                         type="password"
                     />
                     <Button
-                        className={submitCn}
+                        className={loginSubmitCn}
                         view="action"
                         size="m"
                         type="submit"

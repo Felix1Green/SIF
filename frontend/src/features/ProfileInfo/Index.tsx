@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { KeyValue } from '@components/KeyValue';
+import { Title } from '@components/Title';
 import { ProfileInfoProps } from './ProfileInfo.typings';
-import { profileInfoCn } from './ProfileInfo.consts';
+import {
+    profileInfoCn,
+    profileInfoNameCn,
+    profileInfoRoleCn,
+    profileInfoAvatarCn,
+    profileInfoPersonalCn,
+} from './ProfileInfo.const';
 import { ContentCard } from '@src/components/ContentCard';
-import { Button } from '@yandex/ui/Button/desktop/bundle';
 
 import './Index.scss';
+import { Icon } from '@yandex/ui/Icon/bundle';
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = (props) => {
     const {
@@ -13,16 +20,26 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = (props) => {
         login,
         surname,
         role,
-        onLogout,
+        avatar,
+        patronymic,
+        birthday,
+        region,
     } = props;
 
     return (
         <ContentCard className={profileInfoCn}>
-            <KeyValue keyName="Имя" value={name} />
-            <KeyValue keyName="Фамилия" value={surname} />
-            <KeyValue keyName="Логин" value={login} />
-            <KeyValue keyName="Роль" value={role} />
-            <Button view="default" size="m" onClick={onLogout}>Выйти</Button>
+            <Icon className={profileInfoAvatarCn} url={avatar ?? '/img/avatar-com.svg'} />
+            <div>
+                <Title className={profileInfoNameCn}>{surname}</Title>
+                <Title className={profileInfoNameCn}>{name}</Title>
+                <Title className={profileInfoNameCn}>{patronymic}</Title>
+                <div className={profileInfoRoleCn}>{role}</div>
+            </div>
+            <div className={profileInfoPersonalCn}>
+                <KeyValue keyName="Почта" value={login} />
+                <KeyValue keyName="День рождения" value={birthday} />
+                <KeyValue keyName="Регион" value={region} />
+            </div>
         </ContentCard>
     );
 };

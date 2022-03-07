@@ -3,6 +3,7 @@ import { cn } from '@bem-react/classname';
 export const cnHeader = cn('Header');
 
 export const headerCn = cnHeader();
+export const headerTitleCn = cnHeader('Title');
 export const headerUserIconsCn = cnHeader('UserIcons');
 export const headerBurgerMenuCn = cnHeader('BurgerMenu');
 export const headerNavigationCn = cnHeader('Navigation');

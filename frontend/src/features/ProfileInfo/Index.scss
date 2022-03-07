@@ -1,6 +1,23 @@
 .ProfileInfo {
     display: flex;
-    flex-direction: column;
 
-    margin-bottom: var(--space-s);
+    &-Avatar {
+        width: 150px;
+        height: 150px;
+        margin-right: 40px;
+    }
+
+    &-Name {
+        line-height: 35px;
+    }
+
+    &-Role {
+        margin-top: 10px;
+    }
+
+    &-Personal {
+        min-width: 280px;
+        margin-left: auto;
+        justify-self: flex-end;
+    }
 }

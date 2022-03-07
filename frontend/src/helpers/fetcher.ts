@@ -1,6 +1,6 @@
 // import CSRF from './CSRF';
 
-export const fetchPOST = async function (url: string, body?: object, headersOptions?: HeadersInit): Promise<Response> {
+export const fetchPOST = async function<T> (url: string, body?: T, headersOptions?: HeadersInit): Promise<Response> {
     return await fetch(url, {
         method: 'POST',
         credentials: 'include',

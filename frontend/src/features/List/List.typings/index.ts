@@ -1,7 +1,7 @@
-import { UsersListType } from '@views/ProfileView/ProfileView.typings';
+import { ListItemProps } from '@features/List/List.components/ListItem/ListItem.typings';
 
 export type ListProps = {
-    usersList: UsersListType;
-    type: 'projects' | 'users';
     title: string;
+    icon: string;
+    list?: Array<ListItemProps>;
 };

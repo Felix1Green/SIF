@@ -30,12 +30,8 @@ body {
     display: flex;
     flex-direction: column;
 
+    min-width: 990px;
     min-height: 100vh;
-
-    @media (max-width: 960px) {
-        --page-main-max-width: var(--page-main-touch-max-width);
-        --page-login-max-width: var(--page-login-touch-max-width);
-    }
 
     > .Spin2 {
         margin: auto;
