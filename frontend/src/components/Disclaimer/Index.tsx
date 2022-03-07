@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { classnames } from '@bem-react/classnames';
-import { InfoPropsType } from './Info.typings';
-import { cnInfo, infoCn } from './Info.consts';
+import { DisclaimerProps } from './Disclaimer.typings';
+import { cnDisclaimer, disclaimerCn } from './Disclaimer.const';
 
 import './index.scss';
 
-export const Info: React.FC<InfoPropsType> = (props) => {
+export const Disclaimer: React.FC<DisclaimerProps> = (props) => {
     const {
         show,
         type,
@@ -17,7 +17,7 @@ export const Info: React.FC<InfoPropsType> = (props) => {
     }
 
     return (
-        <div className={classnames(infoCn, cnInfo({ type }))}>
+        <div className={classnames(disclaimerCn, cnDisclaimer({ type }))}>
             {children}
         </div>
     );

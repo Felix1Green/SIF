@@ -1,20 +1,20 @@
 import { UserContextConsumerProps } from '@views/BaseView/BaseView.typings';
+import { ListProps } from '@features/List/List.typings';
 
-export type RoleType = 'administrator' | 'student' | 'tutor';
+export type RoleType = 'Администратор' | 'Студент' | 'Тьютор';
 export type UserType = {
-    name: string;
-    surname: string;
-    login: string;
-    role: RoleType;
-    avatar?: string;
-    UserMail: string;
+    userID: number;
+    userMail: string;
+    userRole: RoleType;
+    userSurname: string;
+    userName: string;
 };
 export type UserWrapper = UserType | null | undefined;
 
 export type ProfileViewProps = UserContextConsumerProps;
-export type UsersListType = Array<UserType> | null | undefined;
+export type ProfilesListType = Array<UserType> | null | undefined;
 
 export type ProfileViewState = {
     isLogout?: boolean;
-    usersList: UsersListType;
+    usersList?: ListProps['list'];
 };

@@ -1,10 +1,10 @@
-.Info {
+.Disclaimer {
     display: flex;
     justify-content: center;
     align-items: center;
 
     height: 50px;
-    margin-bottom: var(--space-s);
+    margin: 20px 0;
 
     border-radius: var(--button-borderRadius);
 
@@ -15,5 +15,6 @@
 
     &_type_info {
         color: var(--color-typo-secondary);
+        background-color: var(--color-fill-color-transparent-info);
     }
 }

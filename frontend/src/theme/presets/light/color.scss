@@ -11,6 +11,7 @@
     --color-system: #778a9b; /* системный цвет, от которого выстраивается как статусный фон так и типографика */
     --color-promo: #0057d3;
     --color-hover: #c00;
+    --color-stroke: #eeeef2;
     --color-transparent: transparent;
     --color-bg-brand: #176DEA;
     --color-bg-footer: #F7F7FB;
@@ -191,9 +192,9 @@
     --header-search-textinput-typo-color: #000; /* Цвет текста Button_view_search-arrow */
     --header-search-textinput-fill-color: #fff; /* Цвет заливки Textinput_view_search-arrow Texinput-Box */
     --link-view-default-outline-color: #fc0;
-    --link-view-default-typo-color-base: #04b;
+    --link-view-default-typo-color-base: var(--color-bg-brand);
     --link-view-default-typo-color-disabled: rgba(0, 0, 0, 0.3);
-    --link-view-default-typo-color-hovered: #c00;
+    --link-view-default-typo-color-hovered: rgb(18, 89, 193);
     --menu-view-default-border-color-base: rgb(179, 179, 179);
     --menu-view-default-fill-color-base: rgb(230, 230, 230);
     --menu-view-default-fill-color-hovered: rgb(219, 219, 219);

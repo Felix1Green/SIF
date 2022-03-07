@@ -1,41 +1,48 @@
 import * as React from 'react';
-import { ListProps } from './List.typings';
-import { ContentCard } from '@components/ContentCard';
 import { Link } from 'react-router-dom';
-import { ClientRoutes } from '@consts/routes';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
-import { UsersListItem } from '@components/UsersListItem';
 import { Spin } from '@yandex/ui/Spin/desktop/bundle';
+import { Disclaimer } from '@components/Disclaimer';
+import { ClientRoutes } from '@consts/routes';
+import { ContentCard } from '@components/ContentCard';
+import { ListProps } from './List.typings';
+import { ListItem } from './List.components/ListItem';
 import {
-    listAppendCn,
     listCn,
-    listContainerCn, listLoadingCn
-} from '@features/List/List.consts';
+    listAppendCn,
+    listLoadingCn,
+    listContainerCn,
+} from './List.const';
 
 import './index.scss';
-import { Info } from '@components/Info';
 
 export const List: React.FC<ListProps> = props => {
     const {
-        usersList,
+        icon,
+        list,
         title,
     } = props;
 
     return (
-        <ContentCard className={listCn} title={title}>
-            {
-                (usersList === undefined) ?
-                    <Spin className={listLoadingCn} progress view="default" size="l" />
+        <ContentCard className={listCn} title={title} collapsed={false} icon={icon}>
+            {!list ?
+                <Spin className={listLoadingCn} progress view="default" size="l" />
+                :
+                list.length ?
+                    <div className={listContainerCn}>
+                        {list.map(value =>
+                            <ListItem
+                                key={value.id}
+                                id={value.id}
+                                url={value.url}
+                                title={value.title}
+                                description={value.description}
+                                actions={value.actions}
+                            />
+                        )}
+                    </div>
                     :
-                    (usersList && usersList.length !== 0) ?
-                        <div className={listContainerCn}>
-                            {usersList.map((value, index) =>
-                                <UsersListItem key={index} name={value.UserMail} surname={value.surname} />)}
-                        </div>
-                        :
-                        <Info show={true} type={'info'}>
-                            Нет зарегистрированных пользователей
-                        </Info>
+                    <Disclaimer show={true} type={'info'}>Нет данных</Disclaimer>
             }
             <Link className={listAppendCn} to={ClientRoutes.registerPage}>
                 <Button view="action" size="m">Добавить</Button>

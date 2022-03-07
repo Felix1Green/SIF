@@ -1,19 +1,23 @@
-import { UsersListType, UserType, UserWrapper } from '@views/ProfileView/ProfileView.typings';
+import { ProfilesListType, UserWrapper } from '@views/ProfileView/ProfileView.typings';
 import { fetchPOST, fetchGET } from '@src/helpers/fetcher';
 import { RoutesServerApi } from '@consts/routes';
+import { LoginRequest } from '@views/LoginView/LoginView.typings';
+import { mapProfilesListFromGetProfiles, mapUserFromAuth } from '@models/UserModel/UserModel.helpers';
+import { AuthResponse, ProfilesListResponse } from '@models/UserModel/UserModel.typings';
+import { RegisterRequest } from '@views/RegisterView/RegisterView.typings';
 
 export default class UserModel {
     async login(login: string, password: string): Promise<boolean> {
         try {
-            const response = await fetchPOST(RoutesServerApi.Login, {
-                'Username': login,
-                'Password': password,
+            const response = await fetchPOST<LoginRequest>(RoutesServerApi.Login, {
+                'username': login,
+                'password': password,
             });
 
             // TODO: Замедление срабатывания метода для демонстрации загрузки
             await new Promise((resolve) => setTimeout(async () => {resolve('');}, 1000));
 
-            if (!response || (response && !response.ok)) {
+            if (!response || !response.ok) {
                 return false;
             }
 
@@ -35,12 +39,15 @@ export default class UserModel {
 
     async register(name: string, surname: string, login: string, password: string) {
         try {
-            const response = await fetchPOST(RoutesServerApi.Register, {
-                'UserMail': login,
-                'Password': password,
+            const response = await fetchPOST<RegisterRequest>(RoutesServerApi.Register, {
+                'password': password,
+                'userMail': login,
+                'userName': name,
+                'userRole': 'Администратор',
+                'userSurname': surname,
             });
 
-            if (!response || (response && !response.ok)) {
+            if (!response || !response.ok) {
                 return false;
             }
 
@@ -54,7 +61,7 @@ export default class UserModel {
         try {
             const response = await fetchPOST(RoutesServerApi.Logout);
 
-            if (!response || (response && !response.ok)) {
+            if (!response || !response.ok) {
                 return false;
             }
 
@@ -64,18 +71,19 @@ export default class UserModel {
         }
     }
 
-    async getProfileUsersList(): Promise<UsersListType> {
+    async getProfileUsersList(): Promise<ProfilesListType> {
         try {
             // TODO: Замедление срабатывания метода для демонстрации загрузки
             await new Promise((resolve) => setTimeout(async () => {resolve('hello');}, 500));
 
             const response = await fetchGET(RoutesServerApi.Profiles);
 
-            if (!response || (response && !response.ok)) {
+            if (!response || !response.ok) {
                 return null;
             }
 
-            return await response.json();
+            const profilesResponse = await response.json() as ProfilesListResponse;
+            return mapProfilesListFromGetProfiles(profilesResponse);
         } catch (err) {
             return null;
         }
@@ -85,11 +93,12 @@ export default class UserModel {
         try {
             const response = await fetchGET(RoutesServerApi.Auth);
 
-            if (!response || (response && !response.ok)) {
+            if (!response || !response.ok) {
                 return null;
             }
 
-            return response.json();
+            const authResponse = await response.json() as AuthResponse;
+            return mapUserFromAuth(authResponse);
         } catch (err) {
             return null;
         }

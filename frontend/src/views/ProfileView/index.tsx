@@ -1,14 +1,10 @@
 import * as React from 'react';
 import UserModel from '@models/UserModel';
 import { ProfileViewProps, ProfileViewState } from './ProfileView.typings';
-import {
-    leftColumnCn,
-    profileCn,
-    rightColumnCn,
-} from './ProfileView.consts';
-
+import { profileCn, profileLogoutCn, profileManageCn } from './ProfileView.const';
 import { Navigate } from 'react-router-dom';
-
+import { Link } from '@yandex/ui/Link/desktop/bundle';
+import { ContentCard } from '@components/ContentCard';
 import { ClientRoutes } from '@consts/routes';
 import { ProfileInfo } from '@features/ProfileInfo';
 import { List } from '@features/List';
@@ -30,13 +26,7 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
     }
 
     async componentDidMount() {
-        let usersList = await this.userModel.getProfileUsersList();
-        if (usersList) {
-            usersList = usersList.filter(value => {
-                return value.UserMail !== this.props.user?.UserMail;
-            });
-        }
-        this.setState({ usersList });
+        await this.getUsersList();
     }
 
     onLogout = async () => {
@@ -46,6 +36,31 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
         });
     }
 
+    getUsersList = async () => {
+        const usersList = (await this.userModel.getProfileUsersList())?.
+            filter(value => value.userMail !== this.props.user?.userMail).
+            map(value => {
+                return {
+                    id: `${value.userID}`,
+                    url: `profile/${value.userID}`,
+                    title: `${value.userSurname} ${value.userName}`,
+                    description: value.userMail,
+                    actions: [
+                        {
+                            icon: '/icons/chat.svg',
+                        }, {
+                            icon: '/icons/trash.svg',
+                            onClick: () => this.onDeleteUserFromList(`${value.userID}`),
+                        },
+                    ],
+                };
+        });
+        this.setState({ usersList });
+    }
+
+    onDeleteUserFromList = (id: string) => {
+        this.setState({ usersList: this.state.usersList?.filter(value => value.id !== id) });
+    }
 
     render() {
         if (!this.props.user) {
@@ -60,30 +75,32 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
         } = this.state;
 
         const {
-            name,
-            surname,
-            role,
-            UserMail,
+            userName,
+            userRole,
+            userMail,
+            userSurname,
         } = this.props.user;
 
         return (
             <div className={profileCn}>
-                <div className={leftColumnCn}>
-                    <ProfileInfo
-                        name={name}
-                        surname={surname}
-                        login={UserMail}
-                        role={role}
-                        onLogout={this.onLogout}
-                    />
-                </div>
-                <div className={rightColumnCn}>
-                    <List
-                        usersList={usersList}
-                        type="users"
-                        title="Пользователь"
-                    />
-                </div>
+                <ProfileInfo
+                    name={userName}
+                    surname={userSurname}
+                    patronymic="Геннадьевич"
+                    login={userMail}
+                    role={userRole}
+                    avatar="/img/avatar-com.svg"
+                    birthday="20.07.2007"
+                    region="Московская область, Мытищи"
+                />
+                <List
+                    list={usersList}
+                    icon='/icons/add-user.svg'
+                    title="Зарегистрированные пользователи"
+                />
+                <ContentCard title="Управление аккаунтом" icon="/icons/settings.svg" collapsed={false}>
+                    <div className={profileManageCn}><Link className={profileLogoutCn} view="default" onClick={this.onLogout}>Выйти</Link></div>
+                </ContentCard>
             </div>
         );
     }

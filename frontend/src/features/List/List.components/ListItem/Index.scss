@@ -1,0 +1,40 @@
+.ListItem {
+    display: flex;
+    align-items: center;
+
+    height: var(--profile-item-height);
+    padding: var(--space-xs);
+
+    &:not(&:last-child) {
+        border-bottom: 1px solid #eeeef2;
+    }
+
+    &-Action {
+        visibility: hidden;
+
+        width: 24px;
+        height: 24px;
+
+        cursor: pointer;
+
+        &:not(&:last-child) {
+            margin-right: 12px;
+        }
+    }
+
+    &:hover {
+        background-color: var(--button-view-default-fill-color-hovered);
+
+        .ListItem-Action {
+            visibility: visible;
+        }
+    }
+
+    &-Title {
+        font-weight: 500;
+    }
+
+    &-Text {
+        flex-grow: 1;
+    }
+}

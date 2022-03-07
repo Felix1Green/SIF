@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { UsersListItemProps } from './UsersListItem.typings';
-import { usersListItemCn } from './UsersListItem.consts';
+import { usersListItemCn } from './UsersListItem.const';
 
 import './index.scss';
 

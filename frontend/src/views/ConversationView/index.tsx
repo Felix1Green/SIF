@@ -20,7 +20,7 @@ import { ClientRoutes } from '@consts/routes';
 import ChatModel from '@models/ChatModel';
 
 import { fillConversations, fillUsers, tintul } from './ConversationView.helpers';
-import { conversationWrapperCn } from './ConversationView.consts';
+import { conversationWrapperCn } from './ConversationView.const';
 
 import './index.scss';
 

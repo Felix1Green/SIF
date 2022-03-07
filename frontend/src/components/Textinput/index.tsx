@@ -4,10 +4,9 @@ import {
     ITextinputProps,
     Textinput as TextinputBase
 } from '@yandex/ui/Textinput/desktop/bundle';
-import { inputCn, labelCn } from './Textinput.consts';
+import { inputCn, labelCn } from './Textinput.const';
 
 import './index.scss';
-import { useState } from 'react';
 
 export const Textinput: React.FC<ITextinputProps> = (props: ITextinputProps) => {
     const {

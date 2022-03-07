@@ -1,6 +1,6 @@
 import { Conversation, IStorage, UserStatus, User } from '@chatscope/use-chat';
 
-const defaultAvatar = '/img/avatar-svgrepo-com.svg';
+const defaultAvatar = '/img/avatar-com.svg';
 
 const itkees = {
     avatar: defaultAvatar,

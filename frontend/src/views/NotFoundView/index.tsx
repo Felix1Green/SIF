@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { notFound404Cn, notFoundCn, notFoundRedirectCn } from './NotFoundView.consts';
+import { notFound404Cn, notFoundCn, notFoundRedirectCn } from './NotFoundView.const';
 import { ContentCard } from '@src/components/ContentCard';
 
 import './index.scss';

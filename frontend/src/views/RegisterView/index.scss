@@ -1,5 +1,8 @@
 .Registration {
-    min-width: var(--page-login-max-width);
+    width: var(--page-login-max-width);
+    min-width: 400px;
+    margin-right: auto;
+    margin-left: auto;
 
     &-Submit {
         width: 100%;
