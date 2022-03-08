@@ -1,9 +1,9 @@
-import { RoleType } from '@views/ProfileView/ProfileView.typings';
+import { Roles } from '@views/ProfileView/ProfileView.typings';
 
 export type AuthResponse = {
     UserID: number;
     UserMail: string;
-    UserRole: RoleType;
+    UserRole: Roles;
     UserSurname: string;
     Username: string;
 }
@@ -11,7 +11,7 @@ export type AuthResponse = {
 export type ProfileResponse = {
     UserID: number;
     UserMail: string;
-    UserRole: RoleType;
+    UserRole: Roles;
     UserSurname: string;
     UserName: string;
 }

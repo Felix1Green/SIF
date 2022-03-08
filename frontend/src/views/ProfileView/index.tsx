@@ -1,6 +1,6 @@
 import * as React from 'react';
 import UserModel from '@models/UserModel';
-import { ProfileViewProps, ProfileViewState } from './ProfileView.typings';
+import { ProfileViewProps, ProfileViewState, Roles } from './ProfileView.typings';
 import { profileCn, profileLogoutCn, profileManageCn } from './ProfileView.const';
 import { Navigate } from 'react-router-dom';
 import { Link } from '@yandex/ui/Link/desktop/bundle';
@@ -93,11 +93,11 @@ export default class ProfileView extends React.Component<ProfileViewProps, Profi
                     birthday="20.07.2007"
                     region="Московская область, Мытищи"
                 />
-                <List
+                {userRole !== Roles.Student && <List
                     list={usersList}
                     icon='/icons/add-user.svg'
                     title="Зарегистрированные пользователи"
-                />
+                />}
                 <ContentCard title="Управление аккаунтом" icon="/icons/settings.svg" collapsed={false}>
                     <div className={profileManageCn}><Link className={profileLogoutCn} view="default" onClick={this.onLogout}>Выйти</Link></div>
                 </ContentCard>

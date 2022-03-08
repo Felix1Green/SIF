@@ -1,15 +1,17 @@
 import * as React from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { RegisterViewProps, RegisterViewState } from '@views/RegisterView/RegisterView.typings';
 import Validator from '@helpers/validator';
 import UserModel from '@models/UserModel';
-import { ChangeEvent, FormEvent } from 'react';
 import { ClientRoutes } from '@consts/routes';
 import { Navigate } from 'react-router-dom';
 import { ContentCard } from '@src/components/ContentCard';
-import { registrationCn, registrationSubmitCn, registrationFormCn } from './RegisterView.const';
+import { registrationCn, registrationFormCn, registrationSubmitCn, roleSelectOptions } from './RegisterView.const';
+import { Roles } from '@views/ProfileView/ProfileView.typings';
 import { Disclaimer } from '@components/Disclaimer';
 import { Textinput } from '@components/Textinput';
 import { Button } from '@yandex/ui/Button/desktop/bundle';
+import { Select } from '@components/Select';
 
 import './index.scss';
 
@@ -26,6 +28,7 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
         this.state = {
             login: '',
             name: '',
+            role: Roles.Default,
             surname: '',
             password: '',
             progress: false,
@@ -50,6 +53,10 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
         this.setState({ surname: event.target.value });
     };
 
+    onChangeRole = (event: ChangeEvent<HTMLSelectElement>) => {
+        this.setState({ role: event.target.value as Roles });
+    };
+
     onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -58,6 +65,7 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
             password,
             name,
             surname,
+            role,
         } = this.state;
 
         this.setState({
@@ -72,7 +80,8 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
             !this.validator.validateLogin(login) ||
             !this.validator.validatePassword(password) ||
             !this.validator.validateName(name) ||
-            !this.validator.validateName(surname)
+            !this.validator.validateSurname(surname) ||
+            !this.validator.validateRole(role)
         ) {
             this.setState({
                 progress: false,
@@ -82,7 +91,7 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
             return;
         }
 
-        if (await this.userModel.register(name, surname, login, password)) {
+        if (await this.userModel.register({ name, surname, role, login, password })) {
             this.setState({ isSuccess: true });
         } else {
             this.setState({
@@ -104,6 +113,7 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
         const {
             name,
             surname,
+            role,
             login,
             password,
             showAlert,
@@ -133,6 +143,15 @@ export default class RegisterView extends React.Component<RegisterViewProps, Reg
                         onChange={this.onChangeLogin}
                         value={login}
                         label="Логин"
+                    />
+                    <Select
+                        size="m"
+                        view="default"
+                        label="Роль"
+                        onChange={this.onChangeRole}
+                        value={role}
+                        placeholder={'Укажите роль'}
+                        options={roleSelectOptions}
                     />
                     <Textinput
                         onChange={this.onChangePassword}

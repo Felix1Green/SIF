@@ -1,10 +1,10 @@
-import { ProfilesListType, UserWrapper } from '@views/ProfileView/ProfileView.typings';
+import { ProfilesListType, Roles, UserWrapper } from '@views/ProfileView/ProfileView.typings';
 import { fetchPOST, fetchGET } from '@src/helpers/fetcher';
 import { RoutesServerApi } from '@consts/routes';
 import { LoginRequest } from '@views/LoginView/LoginView.typings';
 import { mapProfilesListFromGetProfiles, mapUserFromAuth } from '@models/UserModel/UserModel.helpers';
 import { AuthResponse, ProfilesListResponse } from '@models/UserModel/UserModel.typings';
-import { RegisterRequest } from '@views/RegisterView/RegisterView.typings';
+import { RegisterFields, RegisterRequest } from '@views/RegisterView/RegisterView.typings';
 
 export default class UserModel {
     async login(login: string, password: string): Promise<boolean> {
@@ -37,13 +37,14 @@ export default class UserModel {
         }
     }
 
-    async register(name: string, surname: string, login: string, password: string) {
+    async register(registerFields: RegisterFields) {
+        const { name, surname, role, login, password } = registerFields;
         try {
             const response = await fetchPOST<RegisterRequest>(RoutesServerApi.Register, {
                 'password': password,
                 'userMail': login,
                 'userName': name,
-                'userRole': 'Администратор',
+                'userRole': role,
                 'userSurname': surname,
             });
 
