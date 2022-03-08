@@ -22,4 +22,12 @@ export default class Validator {
         const nameRegExp = /^([A-Z][a-z]*)|([А-Я][а-я]*)$/;
         return nameRegExp.test(name);
     }
+
+    validateSurname(surname?: string): boolean {
+        return this.validateName(surname);
+    }
+
+    validateRole(role?: string): boolean {
+        return Boolean(role);
+    }
 }

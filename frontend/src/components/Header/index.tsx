@@ -22,6 +22,7 @@ const navigationTabs = [
     { name: 'Тьюторы', url: '/' },
     { name: 'Вакансии', url: '/' },
 ];
+
 export const Header: React.FC<HeaderPropsType> = (props) => {
     const burgerMenu = <Icon className={headerBurgerMenuCn} url={'/icons/burger-menu.svg'}/>;
     const messageIcon = <Icon className={headerUserIconsCn} url={'/icons/envelope.svg'} />;

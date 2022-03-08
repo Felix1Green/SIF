@@ -9,13 +9,7 @@ import { inputCn, labelCn } from './Textinput.const';
 import './index.scss';
 
 export const Textinput: React.FC<ITextinputProps> = (props: ITextinputProps) => {
-    const {
-        required = true,
-        value,
-        onChange,
-        label,
-        type,
-    } = props;
+    const { required = true, label, ...inputProps } = props;
 
     return (
         <>
@@ -23,12 +17,10 @@ export const Textinput: React.FC<ITextinputProps> = (props: ITextinputProps) => 
             <TextinputBase
                 size="m"
                 view="default"
-                type={type}
-                value={value}
                 className={inputCn}
-                onChange={onChange}
                 required={required}
                 hasClear={true}
+                {...inputProps}
             />
         </>
     );

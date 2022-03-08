@@ -1,0 +1,19 @@
+.Select {
+    &-Label {
+        display: block;
+
+        margin-bottom: var(--space-s);
+    }
+
+    &-Component {
+        margin-bottom: var(--space-s);
+
+        .Button2_size_m .Button2-Icon_side_right ~ .Button2-Text {
+            margin-right: calc(2 * var(--button-size-m-icon-indentRight));
+        }
+
+        .Button2-Icon_side_right {
+            height: 100%;
+        }
+    }
+}

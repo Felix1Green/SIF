@@ -1,11 +1,17 @@
 import { UserContextConsumerProps } from '@views/BaseView/BaseView.typings';
 import { ListProps } from '@features/List/List.typings';
 
-export type RoleType = 'Администратор' | 'Студент' | 'Тьютор';
+export enum Roles {
+    Default = '',
+    Administrator = 'Администратор',
+    Student = 'Студент',
+    Tutor = 'Тьютор',
+}
+
 export type UserType = {
     userID: number;
     userMail: string;
-    userRole: RoleType;
+    userRole: Roles;
     userSurname: string;
     userName: string;
 };

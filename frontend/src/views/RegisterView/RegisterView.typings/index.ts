@@ -1,5 +1,5 @@
 import { UserContextConsumerProps } from '@views/BaseView/BaseView.typings';
-import { RoleType } from '@views/ProfileView/ProfileView.typings';
+import { Roles } from '@views/ProfileView/ProfileView.typings';
 
 export type RegisterViewProps = UserContextConsumerProps;
 export type RegisterViewState = RegisterFields & {
@@ -10,6 +10,7 @@ export type RegisterViewState = RegisterFields & {
 
 export type RegisterFields = {
     name: string;
+    role: Roles;
     surname: string;
     login: string;
     password: string;
@@ -19,6 +20,6 @@ export type RegisterRequest = {
     userName: string;
     userSurname: string;
     userMail: string;
-    userRole: RoleType;
+    userRole: Roles;
     password: string;
 }
